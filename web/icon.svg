@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="ZeroScroll mark">
+  <rect width="128" height="128" fill="#f5f0e6"/>
+  <rect x="8" y="8" width="112" height="112" fill="none" stroke="#1f1c18" stroke-width="2"/>
+  <line x1="24" y1="36" x2="104" y2="36" stroke="#2b47a1" stroke-width="2"/>
+  <path d="M36 48H92L40 94H92" fill="none" stroke="#1f1c18" stroke-width="6" stroke-linecap="square" stroke-linejoin="miter"/>
+</svg>

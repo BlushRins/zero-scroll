@@ -1,0 +1,68 @@
+name: Mobile Issue Capture
+
+on:
+  issues:
+    types: [opened]
+
+permissions:
+  contents: write
+  issues: write
+
+jobs:
+  capture:
+    # Only process issues created by the repository owner on public repos
+    if: github.event.issue.author_association == 'OWNER'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Parse and save capture
+        id: dump
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          ISSUE_TITLE: ${{ github.event.issue.title }}
+          ISSUE_BODY: ${{ github.event.issue.body }}
+        run: |
+          TEXT="$ISSUE_TITLE"
+          if [ -n "$ISSUE_BODY" ]; then
+            TEXT="$ISSUE_TITLE $ISSUE_BODY"
+          fi
+          OUTPUT=$(node src/cli.mjs dump "$TEXT")
+          echo "$OUTPUT"
+
+      - name: Commit capture
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/inbox.json data/readlater.json
+          if ! git diff --cached --quiet; then
+            git commit -m "capture: add item from mobile issue"
+            git push
+          fi
+
+      - name: Confirm and close issue
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: 'Captured into ZeroScroll.'
+            });
+            await github.rest.issues.update({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              state: 'closed'
+            });

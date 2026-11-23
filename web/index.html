@@ -1,0 +1,273 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ZeroScroll, daily briefing, brain dump and read-later ledger</title>
+  <meta name="description" content="One daily morning briefing, natural-language brain dump inbox, and three-bullet read-later digest delivered to Gmail and Discord.">
+  <meta name="theme-color" content="#f5f0e6">
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="icon" type="image/svg+xml" href="./icon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;1,6..96,400&family=Geist:wght@400;500&family=Geist+Mono:wght@400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="container topbar__inner">
+      <a class="wordmark" href="#briefing" aria-label="ZeroScroll home">ZeroScroll</a>
+      <nav class="tabs" aria-label="Sections">
+        <a class="tab" href="#briefing" data-tab="briefing" aria-current="page">Briefing</a>
+        <a class="tab" href="#inbox" data-tab="inbox">Brain dump <span class="num tab__count" id="count-inbox">0</span></a>
+        <a class="tab" href="#readlater" data-tab="readlater">Read later <span class="num tab__count" id="count-readlater">0</span></a>
+      </nav>
+      <div class="topbar__actions">
+        <span class="mode-status" id="mode-status" role="status">Connecting</span>
+        <button type="button" class="btn btn--secondary" id="open-sync-btn">Sync settings</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container workspace">
+    <section class="capture" aria-labelledby="capture-heading">
+      <div class="capture__head">
+        <h1 id="capture-heading">Daily ledger</h1>
+        <p class="capture__date num" id="today-date">Today</p>
+      </div>
+      <form class="capture-form" id="capture-form" novalidate>
+        <div class="capture-form__field">
+          <label class="field-label" for="capture-input">Quick capture (tasks, events, notes, or any URL)</label>
+          <div class="capture-form__row">
+            <input
+              id="capture-input"
+              name="capture"
+              type="text"
+              class="input"
+              autocomplete="off"
+              placeholder="submit lab report Friday 5pm #school"
+              aria-describedby="capture-helper"
+              required
+            >
+            <button type="submit" class="btn btn--primary" id="capture-submit">Capture</button>
+          </div>
+          <p class="field-helper" id="capture-helper" aria-live="polite">Dates like “tomorrow 9am” set reminders; pasted URLs move to Read later.</p>
+        </div>
+      </form>
+      <div class="undo-bar" id="undo-bar" hidden role="status" aria-live="polite">
+        <span id="undo-text">Item removed.</span>
+        <button type="button" class="btn btn--secondary btn--compact" id="undo-btn">Undo</button>
+      </div>
+    </section>
+
+    <section class="panel" id="panel-briefing" data-panel="briefing" aria-labelledby="briefing-title">
+      <div class="panel__bar">
+        <div>
+          <h2 id="briefing-title">Morning briefing</h2>
+          <p class="panel__note" id="briefing-meta">Schedule, weather, topic news and read-later notes in one pass.</p>
+        </div>
+        <div class="panel__controls">
+          <button type="button" class="btn btn--secondary" id="run-briefing-btn">Refresh briefing</button>
+          <button type="button" class="btn btn--secondary" id="deliver-briefing-btn">Send to Gmail and Discord</button>
+        </div>
+      </div>
+
+      <div class="state-box" id="briefing-loading" hidden>
+        <div class="skeleton skeleton--line"></div>
+        <div class="skeleton skeleton--row"></div>
+        <div class="skeleton skeleton--row"></div>
+      </div>
+
+      <div class="state-box state-box--error" id="briefing-error" hidden role="alert">
+        <p class="state-box__title" id="briefing-error-title">Could not load briefing.</p>
+        <p class="state-box__body" id="briefing-error-body">Check your connection or local server, then try again.</p>
+        <button type="button" class="btn btn--secondary" id="briefing-retry-btn">Try again</button>
+      </div>
+
+      <div class="state-box" id="briefing-empty" hidden>
+        <p class="state-box__title">No morning briefing generated yet.</p>
+        <p class="state-box__body">Run a briefing to pull weather, upcoming tasks, news topics and unread link summaries.</p>
+        <button type="button" class="btn btn--secondary" id="briefing-empty-btn">Build first briefing</button>
+      </div>
+
+      <div class="briefing-content" id="briefing-content">
+        <div class="weather-strip" id="weather-strip" hidden>
+          <div class="weather-strip__main">
+            <span class="weather-strip__city" id="weather-city">Manila</span>
+            <span class="weather-strip__temp num" id="weather-temp"></span>
+            <span class="weather-strip__cond" id="weather-cond"></span>
+          </div>
+          <dl class="weather-strip__stats">
+            <div class="stat-pair">
+              <dt>High</dt>
+              <dd class="num" id="weather-high"></dd>
+            </div>
+            <div class="stat-pair">
+              <dt>Low</dt>
+              <dd class="num" id="weather-low"></dd>
+            </div>
+            <div class="stat-pair">
+              <dt>Rain</dt>
+              <dd class="num" id="weather-rain"></dd>
+            </div>
+          </dl>
+        </div>
+
+        <div class="briefing-grid">
+          <div class="briefing-col">
+            <h3 class="subhead">Schedule and due items</h3>
+            <table class="ledger-table ledger-table--lead" id="agenda-table">
+              <thead>
+                <tr>
+                  <th scope="col">When</th>
+                  <th scope="col">Item</th>
+                  <th scope="col">Type</th>
+                </tr>
+              </thead>
+              <tbody id="agenda-tbody"></tbody>
+            </table>
+            <p class="inline-empty" id="agenda-empty" hidden>Clear schedule for the next seven days.</p>
+
+            <h3 class="subhead subhead--spaced">Read-later digest</h3>
+            <div class="digest-list" id="briefing-readlater"></div>
+            <p class="inline-empty" id="briefing-readlater-empty" hidden>No unread links queued for this briefing.</p>
+          </div>
+
+          <div class="briefing-col">
+            <h3 class="subhead">Topic news</h3>
+            <div class="news-groups" id="news-groups"></div>
+            <p class="inline-empty" id="news-empty" hidden>No fresh headlines fetched yet. Refresh to pull your configured feeds.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel" id="panel-inbox" data-panel="inbox" hidden aria-labelledby="inbox-title">
+      <div class="panel__bar">
+        <div>
+          <h2 id="inbox-title">Brain dump inbox</h2>
+          <p class="panel__note">Sorted automatically into tasks, events and notes with reminder timestamps.</p>
+        </div>
+        <div class="filter-bar" role="group" aria-label="Filter inbox items">
+          <button type="button" class="filter-btn" data-inbox-filter="open" aria-pressed="true">Open</button>
+          <button type="button" class="filter-btn" data-inbox-filter="task" aria-pressed="false">Tasks</button>
+          <button type="button" class="filter-btn" data-inbox-filter="event" aria-pressed="false">Events</button>
+          <button type="button" class="filter-btn" data-inbox-filter="note" aria-pressed="false">Notes</button>
+          <button type="button" class="filter-btn" data-inbox-filter="done" aria-pressed="false">Done</button>
+        </div>
+      </div>
+
+      <div class="state-box" id="inbox-loading" hidden>
+        <div class="skeleton skeleton--row"></div>
+        <div class="skeleton skeleton--row"></div>
+        <div class="skeleton skeleton--row"></div>
+      </div>
+
+      <div class="state-box state-box--error" id="inbox-error" hidden role="alert">
+        <p class="state-box__title">Could not load inbox.</p>
+        <p class="state-box__body" id="inbox-error-body">Retry loading stored captures.</p>
+        <button type="button" class="btn btn--secondary" id="inbox-retry-btn">Try again</button>
+      </div>
+
+      <div class="state-box" id="inbox-empty" hidden>
+        <p class="state-box__title">Your brain dump inbox is clear.</p>
+        <p class="state-box__body">Type a deadline, reminder or quick thought above to sort it here automatically.</p>
+        <button type="button" class="btn btn--secondary" id="inbox-focus-btn">Focus capture box</button>
+      </div>
+
+      <div class="table-wrap" id="inbox-table-wrap">
+        <table class="ledger-table">
+          <thead>
+            <tr>
+              <th scope="col">Done</th>
+              <th scope="col">Capture</th>
+              <th scope="col">Category</th>
+              <th scope="col">Due</th>
+              <th scope="col">Action</th>
+            </tr>
+          </thead>
+          <tbody id="inbox-tbody"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="panel" id="panel-readlater" data-panel="readlater" hidden aria-labelledby="readlater-title">
+      <div class="panel__bar">
+        <div>
+          <h2 id="readlater-title">Read-later digest</h2>
+          <p class="panel__note">Saved articles and YouTube videos condensed into three bullet points.</p>
+        </div>
+        <div class="filter-bar" role="group" aria-label="Filter saved links">
+          <button type="button" class="filter-btn" data-rl-filter="unread" aria-pressed="true">Unread</button>
+          <button type="button" class="filter-btn" data-rl-filter="digested" aria-pressed="false">Digested</button>
+          <button type="button" class="filter-btn" data-rl-filter="all" aria-pressed="false">All</button>
+        </div>
+      </div>
+
+      <div class="state-box" id="readlater-loading" hidden>
+        <div class="skeleton skeleton--row"></div>
+        <div class="skeleton skeleton--row"></div>
+      </div>
+
+      <div class="state-box state-box--error" id="readlater-error" hidden role="alert">
+        <p class="state-box__title">Could not load read-later queue.</p>
+        <p class="state-box__body" id="readlater-error-body">Retry loading saved links.</p>
+        <button type="button" class="btn btn--secondary" id="readlater-retry-btn">Try again</button>
+      </div>
+
+      <div class="state-box" id="readlater-empty" hidden>
+        <p class="state-box__title">No links in this view.</p>
+        <p class="state-box__body">Paste any article or YouTube URL into Quick capture above to summarize it for your next briefing.</p>
+        <button type="button" class="btn btn--secondary" id="readlater-focus-btn">Paste a link</button>
+      </div>
+
+      <div class="readlater-list" id="readlater-list"></div>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <div class="container foot__inner">
+      <p class="foot__copy">ZeroScroll runs on GitHub Actions and GitHub Pages.</p>
+      <p class="foot__channels" id="channel-summary">Checking delivery channels</p>
+    </div>
+  </footer>
+
+  <dialog class="dialog" id="sync-dialog" aria-labelledby="sync-dialog-title">
+    <form class="dialog__form" id="sync-form" method="dialog">
+      <div class="dialog__head">
+        <h2 id="sync-dialog-title">Sync and delivery settings</h2>
+        <button type="button" class="btn btn--secondary btn--compact" id="close-sync-btn" aria-label="Close settings">Close</button>
+      </div>
+
+      <p class="dialog__intro">When opened from GitHub Pages on your phone, connect your repository with a fine-grained GitHub token so captures commit straight to your repo. The token stays only in this browser.</p>
+
+      <div class="form-stack">
+        <div class="form-group">
+          <label class="field-label" for="gh-repo">GitHub repository (owner/name)</label>
+          <input id="gh-repo" name="repo" type="text" class="input" placeholder="BlushRins/zero-scroll" autocomplete="off">
+          <p class="field-helper">Defaults automatically when served from GitHub Pages.</p>
+        </div>
+
+        <div class="form-group">
+          <label class="field-label" for="gh-branch">Branch</label>
+          <input id="gh-branch" name="branch" type="text" class="input" placeholder="main" autocomplete="off">
+          <p class="field-helper">Branch monitored by your GitHub Actions workflows.</p>
+        </div>
+
+        <div class="form-group">
+          <label class="field-label" for="gh-token">GitHub Personal Access Token (optional)</label>
+          <input id="gh-token" name="token" type="password" class="input" placeholder="github_pat_..." autocomplete="off">
+          <p class="field-helper" id="sync-helper">Needs Contents read and write permission on this repository only.</p>
+        </div>
+      </div>
+
+      <div class="dialog__actions">
+        <button type="button" class="btn btn--secondary" id="clear-sync-btn">Disconnect</button>
+        <button type="submit" class="btn btn--primary" id="save-sync-btn">Save settings</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script type="module" src="./app.js"></script>
+</body>
+</html>

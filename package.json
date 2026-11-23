@@ -1,0 +1,29 @@
+{
+  "name": "zero-scroll",
+  "version": "1.0.0",
+  "description": "Zero-cost 24/7 daily morning briefing, natural-language brain dump inbox, and read-later digest delivered to Gmail and Discord.",
+  "type": "module",
+  "license": "MIT",
+  "author": "BlushRins",
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "bin": {
+    "zero-scroll": "./src/cli.mjs"
+  },
+  "scripts": {
+    "dev": "node src/server.mjs",
+    "brief": "node src/cli.mjs brief",
+    "brief:dry": "node src/cli.mjs brief --dry-run",
+    "reminders": "node src/cli.mjs reminders",
+    "reminders:dry": "node src/cli.mjs reminders --dry-run",
+    "digest": "node src/cli.mjs digest",
+    "digest:dry": "node src/cli.mjs digest --dry-run",
+    "dump": "node src/cli.mjs dump",
+    "save": "node src/cli.mjs save",
+    "test": "node --test test/*.test.mjs"
+  },
+  "dependencies": {
+    "nodemailer": "^6.10.0"
+  }
+}

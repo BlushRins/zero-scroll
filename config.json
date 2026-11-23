@@ -1,0 +1,45 @@
+{
+  "name": "ZeroScroll",
+  "timezone": "Asia/Manila",
+  "weather": {
+    "enabled": true,
+    "city": "Manila",
+    "latitude": 14.5995,
+    "longitude": 120.9842,
+    "unit": "celsius"
+  },
+  "briefing": {
+    "maxNewsPerTopic": 4,
+    "maxReadLaterItems": 5,
+    "lookaheadDays": 7,
+    "markReadLaterDigested": true
+  },
+  "reminders": {
+    "leadHours": [24, 2]
+  },
+  "news": {
+    "topics": [
+      {
+        "name": "OpenAI",
+        "query": "OpenAI",
+        "maxItems": 4
+      },
+      {
+        "name": "AI & Dev Tools",
+        "query": "Anthropic OR \"Google DeepMind\" OR \"Claude Code\" OR \"open weights\" AI",
+        "maxItems": 4
+      }
+    ],
+    "feeds": [
+      {
+        "name": "OpenAI News",
+        "url": "https://openai.com/news/rss.xml",
+        "maxItems": 3
+      }
+    ]
+  },
+  "delivery": {
+    "gmail": true,
+    "discord": true
+  }
+}
