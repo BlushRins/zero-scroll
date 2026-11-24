@@ -1,17 +1,17 @@
 {
-  "generatedAt": "2026-11-23T21:01:55.548Z",
+  "generatedAt": "2026-11-24T06:48:29.225Z",
   "dateLabel": "Tuesday, November 24, 2026",
   "timezone": "Asia/Manila",
   "weather": {
     "city": "Manila",
     "unit": "°C",
-    "currentTemp": 28,
-    "feelsLike": 32,
+    "currentTemp": 34,
+    "feelsLike": 37,
     "high": 35,
-    "low": 27,
-    "rainChance": 61,
+    "low": 28,
+    "rainChance": 54,
     "condition": "Drizzle",
-    "fetchedAt": "2026-11-23T21:01:56.346Z"
+    "fetchedAt": "2026-11-24T06:48:29.574Z"
   },
   "schedule": [],
   "dueSoon": [],
@@ -20,28 +20,28 @@
       "topic": "OpenAI",
       "items": [
         {
-          "title": "OpenAI scientist proposes industry AI limits tied to model intelligence metric",
-          "url": "https://news.google.com/rss/articles/CBMivAFBVV95cUxPa0ZQb0xtalJ5djRmZmkwQnhmdDBlMEtncDUtUEJsUFBtWmptbkdVQ3c5QjY2TzhKN0NFT2ZzYnZmenQxY1lrUWFFYjJsdS1KazdRUkJINEJRemQ1alh6TGtnNW1nRE92bTF3RW9FMTIyODB3UmpBaW5oSzFDWDFVT3FXdjZDVzQ0TVNVd29nQzZvY3ByWVpBLUlhRVg0bFZiRHUxVjhqclptLUMycDJlYVBsQXQ4a28tRnFnbQ?oc=5",
-          "source": "Reuters",
-          "publishedAt": "2026-11-22T23:09:00.000Z"
+          "title": "Cisco, OpenAI Launch Project to Safeguard Agentic AI",
+          "url": "https://news.google.com/rss/articles/CBMijgFBVV95cUxQQWRzSVl5NXdtMlRvTWxOYmItRm53SkNyVGdNOVhPSkZGMV82cHJhdWNYeDRrLVlUaUxPTC1QX0IyX2d4UkNKTkF1NVd3d21tcUc5QWk4Wm1qUWl3QlVxOFBJV3lpaWxreUxWaEdpRXZpR29YcUpsa1dJYkVGMDh4a0llVUZJaDBYa3ZsbWNR?oc=5",
+          "source": "WSJ",
+          "publishedAt": "2026-11-23T22:12:00.000Z"
+        },
+        {
+          "title": "Cisco and OpenAI Launch Shirudo, A New Project to Safeguard Agentic AI",
+          "url": "https://news.google.com/rss/articles/CBMizAFBVV95cUxNOTVoVjcwdWNzZHNuaWVPTlBZZVowRXA0MjdTTDJsVUJGOHJQUVhMcEllUl9zVTJ1YnIxdkpNMHNOamc4Q3dFMXNXcmdTLUFVM0o4Sm80ak1kLXRqT2JSRGx6MEJwa3h1cWdUbC1jd2lHOGl0d2NER3lWNkh0aTNOMVc2U3F3VldWaEZybW1Hc2R3X1NIODFqY0lvNmRvdEtwRGxZOV9nWlZJYUJHMjB4cWs3TUpVaFU2NXlUd3plUmlUU3dBM1l1R1Q2OW0?oc=5",
+          "source": "Cisco Newsroom",
+          "publishedAt": "2026-11-23T21:20:45.000Z"
+        },
+        {
+          "title": "OpenAI and Cisco Unveil AI-Assisted Linux Security Tool to Block Exploits Before Patching",
+          "url": "https://news.google.com/rss/articles/CBMif0FVX3lxTE1tY2NQbVFCa0xnV2gyeGZwMUxyZVFBR0tma1ZnbGlFTGxTaW1TdDVHVVItYi15dXh4dmZneWQ2MFBnZ3JpWUh2TTNKekd5NDNtd3k5dVp3WnVtSGwtZnZtaVRTdEZhUmZSQW8xeWFfdkRja3VqRExVNTk5bXpaM2M?oc=5",
+          "source": "The Hacker News",
+          "publishedAt": "2026-11-24T06:02:00.000Z"
         },
         {
           "title": "OpenAI Chief Scientist Urges Industry Limits on AI Development",
           "url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxQMjVTYVIwT3huVU8teHdXRHdnWGxOUTI5d1J6elZhWktVMVpSZDhhRmk5eV82c0JuRDBSUWNHdl84Z253WDJDbmd6SXhiNlFsdkxhM2gxWTVoTnY2ZkdrZ0dVam1OVXNSZWIwUnBQaTU4bEhJNTZValFSQ1Naam1xb1FkTklSZXI2Ums4d19sUjVheGtLNGhUWjFPcEVyd0ZIRmJlX0FqNXF5cHpCR2pjczF5WQ?oc=5",
           "source": "Bloomberg.com",
           "publishedAt": "2026-11-22T19:40:54.000Z"
-        },
-        {
-          "title": "OpenAI's chief scientist calls for AI speed limits",
-          "url": "https://news.google.com/rss/articles/CBMinAFBVV95cUxObGF4T08wT3cyTG9XcVltYjgtSXNIdHh0bzRnY01FYWNsaklOVXk5M0dGUE5hdmNxcm5icHlJdWd3cDNxcXM1T2FGdmFnaU94VENxOUZSampkVy1vZXF6MDF6ei1EaEFVXzZTTWVxWlNSa1JONl9pcDhGNW1hQzF5VmlxcjlhRXk4bnktTVgyZ1dCNzZPZ0tRN1B2TWk?oc=5",
-          "source": "Yahoo Finance",
-          "publishedAt": "2026-11-23T18:40:05.000Z"
-        },
-        {
-          "title": "UC jumps into AI with systemwide OpenAI deal as faculty urge caution",
-          "url": "https://news.google.com/rss/articles/CBMif0FVX3lxTE0teVBVYVBpX09MbkhFa0tJUWR1QkNhMUFROUR0WUFLRnd6TnhCYTh6RURoUlNRckVWQ1loZEQ1bE1NeFBpWmpKOUdHeG5oQ1VEMUY4LW0ybGVaRzYtcU9wai0zaVlub2ZKcjh1enZIdXJKZWZDdk1XNzk3NFdPWUk?oc=5",
-          "source": "Los Angeles Times",
-          "publishedAt": "2026-11-21T11:00:00.000Z"
         }
       ]
     },
@@ -49,28 +49,28 @@
       "topic": "AI & Dev Tools",
       "items": [
         {
-          "title": "Elon Musk Faces an A.I. Dilemma at SpaceX",
-          "url": "https://news.google.com/rss/articles/CBMihAFBVV95cUxOMGl5dzhJZEtScFQxVzh3VVUzM1RpcXhMd1lFd1A4WkpVbGNhNmxQMEt1cDJZbG1mX20yLTk4Rnd4UW9UX244YThfOGptdThRNjhxcklRdnNwOExyellLU3ZKYzdtbXQyN1BSajNqcEFpTjFBalhRV2ZpaF8xejYxcFp3bWQ?oc=5",
-          "source": "The New York Times",
-          "publishedAt": "2026-11-23T16:13:32.000Z"
+          "title": "Working with AI",
+          "url": "https://news.google.com/rss/articles/CBMiX0FVX3lxTE5QQWdUV21Fa2dHR25yU2RLd3Exd0ZQc3RERzMyZFBtWWhxS0NQZjlWR21rWXZqa3FYbmRlZEhPRGhXb19XR3UtTWd3YTdDR3JwM05VTzZoaW82UDdGQWNF?oc=5",
+          "source": "Anthropic",
+          "publishedAt": "2026-11-23T21:12:08.000Z"
         },
         {
-          "title": "Anthropic’s IPO was great for the tech elite – and not so great for the rest of us | Steven Greenhouse",
-          "url": "https://news.google.com/rss/articles/CBMilgFBVV95cUxQb1BWeTVRdFVORDl1U1BBTTRHYXhPOFdsTW5fV29fa2s0Z0ViTzJhMng3QUJuWVdTeFN4aUhQSU1ZcTI3UFJLLVYxM185d0hxT3FrTXJkN1FtdkZkNlhUWHp1cl9aWnBvSUJPeElpaDk1eko4VEJjQWp6MTc4VzVNdlN4MzZQZGFtcEgwTmlrRzM2WHVIV0E?oc=5",
-          "source": "The Guardian",
-          "publishedAt": "2026-11-23T18:18:00.000Z"
+          "title": "Anthropic launches Claude Ship, letting AI agents review, fix, and approve code changes",
+          "url": "https://news.google.com/rss/articles/CBMiuwFBVV95cUxPOUdkSUFqUUdSaDIwclBOdjhNS2ltR3hsOW4tQTlMTzAzVjVrazZLN3J1eWJsYm02NDBOcUFlLXdoRV9CY3F2OHdwb215cm5mamdRZTBBS19keDhieXZiQ080SnJlTFVsNEpjNkEzMlBjOUhTSHNHTzZwNHJiYTBzSnpDemUwdFNxTXNDRHB3VEs5cnhIUTJpZ1FMd3Z1OTBXRG00Q0dlSmlqUW53eEd2dDJKaVJlRDVQdXFB?oc=5",
+          "source": "TechCrunch",
+          "publishedAt": "2026-11-23T22:05:50.000Z"
         },
         {
-          "title": "Anthropic Shares Climb With AI Trade Rally on Huang’s Return",
-          "url": "https://news.google.com/rss/articles/CBMitAFBVV95cUxNM3FZMk45aHRWV3NIaWg3cWoxX1A3WDYwbnJlelBOZTR5emJTOU1NOFJNbWJFTC1STmNXT1ExMlRnc3BHQWRLRzNIMnJ1eWpSRG1LSWNfanpDY0xDekl4a3NINm9jTzRyVjRzUFpEMDFwc0toMllDYlNaZkwxYXB6djBKT0FyWi1pZmROZzRjaEJGeEhMaWNJWUllWGZBVndiU1FVNnV2RmlkN2ZrTFJ3cHc4WVU?oc=5",
-          "source": "Bloomberg.com",
-          "publishedAt": "2026-11-23T19:16:33.000Z"
+          "title": "Anthropic Committed to Spend $900 Billion. Wall Street Expects Its Debt to Be Junk.",
+          "url": "https://news.google.com/rss/articles/CBMixgFBVV95cUxQNHFQOEdMZm5FNmNuNWo3WHNuNHhBVkprTmplTktaZ1J5Ni0wN0NBdHF5YWg5X2pfc09rZldBYU80NWVCNTRRZDVsb1RfVkRHdFBseWh5VmZieU45WnhMb0JpNEFkZHlCRXp1Y1FMb1M0WjNEWGk0MjBJb3V5eGRtQmVaVzBWaWtPeUhOX1hleHkteHRNN2JUekRTMGpTYmtuMTNKNUdZZG8xWF9iSzYzT3kzaUEzbkYzZ0NsT281aHl6U1FDWUE?oc=5",
+          "source": "WSJ",
+          "publishedAt": "2026-11-23T14:20:00.000Z"
         },
         {
-          "title": "Anthropic Stock Slips, Misses Out On AI Rally Following Jensen Huang's Nvidia Comeback",
-          "url": "https://news.google.com/rss/articles/CBMikgFBVV95cUxQM3MxRWxwSEg4SHk1NjVOQnEtNzFqOXU4Q0RyS2k1YWlWUnQtNU9vN1NzYmdTV2I1MExtSk5tXzl2dUFEdDNuWVRZSjZyZkM0bUh6b2NVaEsyUkw0Wnd4OHFocXo5M2lBd09kUXJNaUNxcEYySWl1X0ZNTkxWTHVrMGNpeFkteHF4S1F0dndzd2s3UQ?oc=5",
-          "source": "Investor's Business Daily",
-          "publishedAt": "2026-11-23T17:28:00.000Z"
+          "title": "Anthropic's IPO set for blastoff Thursday in key test for AI boom",
+          "url": "https://news.google.com/rss/articles/CBMickFVX3lxTE10OUpMSF9LOVFSVk9ZbGszRUFCTm9sYjhnUk9IaWZWb1FieW4zUG1saWd5UlJBUHB2TXRvczNqVlExYkd4WEcxRGlwdC1PbHUtaEFfRno2WlE0TnBVTWFtMnBwTmRCc3ZGS19adHRmUTBCZw?oc=5",
+          "source": "CBS News",
+          "publishedAt": "2026-11-23T13:45:21.000Z"
         }
       ]
     },
@@ -78,22 +78,22 @@
       "topic": "OpenAI News",
       "items": [
         {
+          "title": "OpenAI and Cisco introduce Shirudo",
+          "url": "https://openai.com/index/introducing-shirudo",
+          "source": "OpenAI News",
+          "publishedAt": "2026-11-23T21:20:00.000Z"
+        },
+        {
           "title": "Connected intelligence for in-house legal",
           "url": "https://openai.com/business/learn/connected-intelligence-for-in-house-legal",
           "source": "OpenAI News",
           "publishedAt": "2026-11-23T08:00:00.000Z"
         },
         {
-          "title": "Perplexity and Intelligence",
-          "url": "https://openai.com/index/perplexity-and-intelligence",
+          "title": "Richpanel helps companies automate 50% of support in 30 days",
+          "url": "https://openai.com/business/customer-stories/richpanel-ai-customer-support",
           "source": "OpenAI News",
-          "publishedAt": "2026-11-22T00:00:00.000Z"
-        },
-        {
-          "title": "Combatting adversarial distillation",
-          "url": "https://openai.com/index/combatting-adversarial-distillation",
-          "source": "OpenAI News",
-          "publishedAt": "2026-11-20T10:00:00.000Z"
+          "publishedAt": "2026-11-23T08:00:00.000Z"
         }
       ]
     }
