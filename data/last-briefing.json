@@ -1,99 +1,173 @@
 {
-  "generatedAt": "2026-11-24T06:48:29.225Z",
+  "generatedAt": "2026-11-24T09:08:12.703Z",
   "dateLabel": "Tuesday, November 24, 2026",
   "timezone": "Asia/Manila",
   "weather": {
     "city": "Manila",
     "unit": "°C",
-    "currentTemp": 34,
-    "feelsLike": 37,
+    "currentTemp": 32,
+    "feelsLike": 35,
     "high": 35,
     "low": 28,
     "rainChance": 54,
     "condition": "Drizzle",
-    "fetchedAt": "2026-11-24T06:48:29.574Z"
+    "fetchedAt": "2026-11-24T09:08:12.756Z"
   },
   "schedule": [],
   "dueSoon": [],
   "news": [
     {
-      "topic": "OpenAI",
+      "topic": "Famous AI News & Updates",
       "items": [
         {
-          "title": "Cisco, OpenAI Launch Project to Safeguard Agentic AI",
-          "url": "https://news.google.com/rss/articles/CBMijgFBVV95cUxQQWRzSVl5NXdtMlRvTWxOYmItRm53SkNyVGdNOVhPSkZGMV82cHJhdWNYeDRrLVlUaUxPTC1QX0IyX2d4UkNKTkF1NVd3d21tcUc5QWk4Wm1qUWl3QlVxOFBJV3lpaWxreUxWaEdpRXZpR29YcUpsa1dJYkVGMDh4a0llVUZJaDBYa3ZsbWNR?oc=5",
-          "source": "WSJ",
-          "publishedAt": "2026-11-23T22:12:00.000Z"
+          "title": "Virginia, Oregon sue Musk's SpaceX over Grok AI's creation of child sexual abuse images",
+          "url": "https://news.google.com/rss/articles/CBMixgFBVV95cUxObnVxU21QWWFOSHYzcW1sajgxS25DUndFTGd6dTh6UzdyaFR5U0QtMWlROWIxZ01IcU0wNG5FLXRaMWZoS1o0dHhEUUFiaDItWFVIbE01S1pTbDZxYVZGN1hMaHlNYXBZck84N3JPaW1xcW5VMHdNeFBHSWZmRVN6MzlHZjdEcl8wTkVERGhBU3M0dVBXSHBFUHNpM1pCc1Q0MV9HTWlveVJSV1hiSEFaWjJDMEI0b2p2bzBIZEdrampIVFlVWEE?oc=5",
+          "source": "Reuters",
+          "publishedAt": "2026-11-23T20:28:29.000Z"
         },
         {
-          "title": "Cisco and OpenAI Launch Shirudo, A New Project to Safeguard Agentic AI",
-          "url": "https://news.google.com/rss/articles/CBMizAFBVV95cUxNOTVoVjcwdWNzZHNuaWVPTlBZZVowRXA0MjdTTDJsVUJGOHJQUVhMcEllUl9zVTJ1YnIxdkpNMHNOamc4Q3dFMXNXcmdTLUFVM0o4Sm80ak1kLXRqT2JSRGx6MEJwa3h1cWdUbC1jd2lHOGl0d2NER3lWNkh0aTNOMVc2U3F3VldWaEZybW1Hc2R3X1NIODFqY0lvNmRvdEtwRGxZOV9nWlZJYUJHMjB4cWs3TUpVaFU2NXlUd3plUmlUU3dBM1l1R1Q2OW0?oc=5",
-          "source": "Cisco Newsroom",
-          "publishedAt": "2026-11-23T21:20:45.000Z"
+          "title": "OpenAI scientist proposes industry AI limits tied to model intelligence metric",
+          "url": "https://news.google.com/rss/articles/CBMivAFBVV95cUxPa0ZQb0xtalJ5djRmZmkwQnhmdDBlMEtncDUtUEJsUFBtWmptbkdVQ3c5QjY2TzhKN0NFT2ZzYnZmenQxY1lrUWFFYjJsdS1KazdRUkJINEJRemQ1alh6TGtnNW1nRE92bTF3RW9FMTIyODB3UmpBaW5oSzFDWDFVT3FXdjZDVzQ0TVNVd29nQzZvY3ByWVpBLUlhRVg0bFZiRHUxVjhqclptLUMycDJlYVBsQXQ4a28tRnFnbQ?oc=5",
+          "source": "Reuters",
+          "publishedAt": "2026-11-22T23:09:00.000Z"
         },
         {
-          "title": "OpenAI and Cisco Unveil AI-Assisted Linux Security Tool to Block Exploits Before Patching",
-          "url": "https://news.google.com/rss/articles/CBMif0FVX3lxTE1tY2NQbVFCa0xnV2gyeGZwMUxyZVFBR0tma1ZnbGlFTGxTaW1TdDVHVVItYi15dXh4dmZneWQ2MFBnZ3JpWUh2TTNKekd5NDNtd3k5dVp3WnVtSGwtZnZtaVRTdEZhUmZSQW8xeWFfdkRja3VqRExVNTk5bXpaM2M?oc=5",
-          "source": "The Hacker News",
-          "publishedAt": "2026-11-24T06:02:00.000Z"
+          "title": "A legendary philosopher isn’t buying Anthropic’s consciousness argument",
+          "url": "https://news.google.com/rss/articles/CBMivwFBVV95cUxPOVJjY0Z0eXltTjlvZFE1YkNJNGFPYUhjY3k3QUExczJNbkc0dGZzeHVndVZwQ1VzRmYyY2hjX0pqdWtfTTEyS0ZqVVYzajlMSVViZGppWFlqRThpbW5BNGdsemJOQk9kcVc5VmFEcnFsandWUy1hM2JkNWIwOTN2RzBRbWVwNWN5MTZCaEdsQVB4OEpUSDNiZDIzaHlQdnd0Yzg5blhhUHFHcnBaQmViaEhjQ2JxdnkwWnNSdVNOONIBxAFBVV95cUxNa1ZNcWxfTVFmYnpIWGh0Q21UaE9KbnBydERsMDZINEJuTHktSldwdXFmaXhJXzNoUnRQWkxsNHk4WHlacWdyMU9NMHM0M2tOQ1VZbDJ3NGlrRTI2ekFrajgyclVFeUlzZ3NqREV3clM4R2UycDlleW1uMmtMSmdaUVlOdjl2S1VvSGM0ZmEzaGRNZjlXTzVCN1RqblhwbndacGJMdVU1NFZLUzM3M01oM2RZY0pzZXZFOHBFME5FQ25tSlNx?oc=5",
+          "source": "MIT Technology Review",
+          "publishedAt": "2026-11-23T17:36:08.000Z"
         },
         {
-          "title": "OpenAI Chief Scientist Urges Industry Limits on AI Development",
-          "url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxQMjVTYVIwT3huVU8teHdXRHdnWGxOUTI5d1J6elZhWktVMVpSZDhhRmk5eV82c0JuRDBSUWNHdl84Z253WDJDbmd6SXhiNlFsdkxhM2gxWTVoTnY2ZkdrZ0dVam1OVXNSZWIwUnBQaTU4bEhJNTZValFSQ1Naam1xb1FkTklSZXI2Ums4d19sUjVheGtLNGhUWjFPcEVyd0ZIRmJlX0FqNXF5cHpCR2pjczF5WQ?oc=5",
-          "source": "Bloomberg.com",
-          "publishedAt": "2026-11-22T19:40:54.000Z"
+          "title": "Elon Musk Faces an A.I. Dilemma at SpaceX",
+          "url": "https://news.google.com/rss/articles/CBMihAFBVV95cUxOMGl5dzhJZEtScFQxVzh3VVUzM1RpcXhMd1lFd1A4WkpVbGNhNmxQMEt1cDJZbG1mX20yLTk4Rnd4UW9UX244YThfOGptdThRNjhxcklRdnNwOExyellLU3ZKYzdtbXQyN1BSajNqcEFpTjFBalhRV2ZpaF8xejYxcFp3bWQ?oc=5",
+          "source": "The New York Times",
+          "publishedAt": "2026-11-23T16:13:32.000Z"
         }
       ]
     },
     {
-      "topic": "AI & Dev Tools",
+      "topic": "AI Dev Tools & Releases",
       "items": [
         {
-          "title": "Working with AI",
-          "url": "https://news.google.com/rss/articles/CBMiX0FVX3lxTE5QQWdUV21Fa2dHR25yU2RLd3Exd0ZQc3RERzMyZFBtWWhxS0NQZjlWR21rWXZqa3FYbmRlZEhPRGhXb19XR3UtTWd3YTdDR3JwM05VTzZoaW82UDdGQWNF?oc=5",
-          "source": "Anthropic",
-          "publishedAt": "2026-11-23T21:12:08.000Z"
+          "title": "SpaceX’s subsidiary Cursor tells lawmakers it's considering phasing out Chinese AI models",
+          "url": "https://news.google.com/rss/articles/CBMihgFBVV95cUxQUDVoNmlWZGIxdGFNWnNNSXYyZmZ6RUt2V00wZkktQmUxdThobUx3VUxrUDhYUnJPaEtvX1dfTTJLRnB1R3Jua3E2SVZXN2s3Wnl5OWdId3JuTmJ1NlRfaW14c0pvVUo5VWx6UmpUWmhSM3pkWGdsM3Bsc0xNTGJNV0JkT1lZUdIBiwFBVV95cUxNVFNfT0hzd0lkQjZTUjlfMVY0VVZybzBfcWtTdEVnVm9GNWZkbEt4dmJvZHhzZ0dIdXRUa1pRY1pOTUpXRUdGekRWa2Y0NmgtQ0hUbkFMeTJtM2dVbUs3MTVBcUlmaFJZR0JaSVIydTBIN0NDVmhPSXp0YUd2cmh5RlB2cTlDTENqNUtV?oc=5",
+          "source": "CNBC",
+          "publishedAt": "2026-11-20T14:04:17.000Z"
         },
         {
-          "title": "Anthropic launches Claude Ship, letting AI agents review, fix, and approve code changes",
-          "url": "https://news.google.com/rss/articles/CBMiuwFBVV95cUxPOUdkSUFqUUdSaDIwclBOdjhNS2ltR3hsOW4tQTlMTzAzVjVrazZLN3J1eWJsYm02NDBOcUFlLXdoRV9CY3F2OHdwb215cm5mamdRZTBBS19keDhieXZiQ080SnJlTFVsNEpjNkEzMlBjOUhTSHNHTzZwNHJiYTBzSnpDemUwdFNxTXNDRHB3VEs5cnhIUTJpZ1FMd3Z1OTBXRG00Q0dlSmlqUW53eEd2dDJKaVJlRDVQdXFB?oc=5",
-          "source": "TechCrunch",
-          "publishedAt": "2026-11-23T22:05:50.000Z"
+          "title": "Claude Code Adds Experimental Code Mode to Orchestrate Tool Calls with JavaScript",
+          "url": "https://news.google.com/rss/articles/CBMiYkFVX3lxTFBudTB1WS1BN2pQdGpaSEREV1ZDZjBkamFBY29rY1d0WjZoTnBwd0ZjN2dnQ1ZRM2tkdVZhNm1CQzhUMGxaYkZ0MG1NMXRxaVdpUWgxZ0FHVU42VE1QREZ3V0pn?oc=5",
+          "source": "infoq.com",
+          "publishedAt": "2026-11-23T12:20:42.000Z"
         },
         {
-          "title": "Anthropic Committed to Spend $900 Billion. Wall Street Expects Its Debt to Be Junk.",
-          "url": "https://news.google.com/rss/articles/CBMixgFBVV95cUxQNHFQOEdMZm5FNmNuNWo3WHNuNHhBVkprTmplTktaZ1J5Ni0wN0NBdHF5YWg5X2pfc09rZldBYU80NWVCNTRRZDVsb1RfVkRHdFBseWh5VmZieU45WnhMb0JpNEFkZHlCRXp1Y1FMb1M0WjNEWGk0MjBJb3V5eGRtQmVaVzBWaWtPeUhOX1hleHkteHRNN2JUekRTMGpTYmtuMTNKNUdZZG8xWF9iSzYzT3kzaUEzbkYzZ0NsT281aHl6U1FDWUE?oc=5",
-          "source": "WSJ",
-          "publishedAt": "2026-11-23T14:20:00.000Z"
-        },
-        {
-          "title": "Anthropic's IPO set for blastoff Thursday in key test for AI boom",
-          "url": "https://news.google.com/rss/articles/CBMickFVX3lxTE10OUpMSF9LOVFSVk9ZbGszRUFCTm9sYjhnUk9IaWZWb1FieW4zUG1saWd5UlJBUHB2TXRvczNqVlExYkd4WEcxRGlwdC1PbHUtaEFfRno2WlE0TnBVTWFtMnBwTmRCc3ZGS19adHRmUTBCZw?oc=5",
-          "source": "CBS News",
-          "publishedAt": "2026-11-23T13:45:21.000Z"
+          "title": "Gemini 4 Neon in GitHub Copilot",
+          "url": "https://news.google.com/rss/articles/CBMifkFVX3lxTFBMS1FJZ2psbEdtam53b1NNNV90Y1NvZUNOcDVnYkxvUkxSY0JKOXpWVFktdUNMMTA4eUVMT3phdVRDRzJtcHM5N0JxMEZVYjZfdTNERE9uaXNGdm0wTkRNYm96b2pEZFd6NzRTSGdabVlVbGE3V211UzI3YnFqQQ?oc=5",
+          "source": "The GitHub Blog",
+          "publishedAt": "2026-11-18T21:49:21.000Z"
         }
       ]
     },
     {
-      "topic": "OpenAI News",
+      "topic": "Verified AI Leaks & Early Reports",
       "items": [
         {
-          "title": "OpenAI and Cisco introduce Shirudo",
-          "url": "https://openai.com/index/introducing-shirudo",
-          "source": "OpenAI News",
-          "publishedAt": "2026-11-23T21:20:00.000Z"
+          "title": "EXCLUSIVE: Nvidia's accounting is a focus of US SEC investigation, sources say",
+          "url": "https://news.google.com/rss/articles/CBMitgFBVV95cUxPMzlPdFVTT2cyVkhmMFVKNWZ1MnpNT0NLcURnblg4THMwUWNuYTRBLWUxU0ZSSUR5bk1zNnBmVlhIUjByNkN6TzVBNC1uaXQxM0dwY2FkMzZQdm00a0xyMXo3NFNpSUNPdERZWU82aGZLa0lNZHpMOXVnVDBVQW9lMmNrWEVRczVYS1Racm1NNlNERDBJeTFJRG1pZVRfTC1LTy1pNjhpVzRaeGRrY25kSzQ1aDNUUQ?oc=5",
+          "source": "Reuters",
+          "publishedAt": "2026-11-21T03:08:01.000Z"
         },
         {
-          "title": "Connected intelligence for in-house legal",
-          "url": "https://openai.com/business/learn/connected-intelligence-for-in-house-legal",
-          "source": "OpenAI News",
-          "publishedAt": "2026-11-23T08:00:00.000Z"
+          "title": "EXCLUSIVE: Like SpaceX, Anthropic ran an unusual IPO process, chafing some bankers",
+          "url": "https://news.google.com/rss/articles/CBMisAFBVV95cUxNT1RsTFBlMWZGejNqWjVvdVlYX2lRTGpZZXhoYXFXN2RuV3lHZ09ra0ctdnZqc3hiVENXSlc2ZTBIbDRyTmpTS1Nhdk1kdU5HLW5FNGdNRTNoeXVBeEc5cDl5VGx3c3dUSzNDYkVVTHVfenVQbHFUQ0hQS2NfalhuNDczWFdUS0FWQS1iZ1ZhVnNYMy1FOHVSUmlBMmI3NTdVTGY1X0JxTFRmYnptV3huQQ?oc=5",
+          "source": "Reuters",
+          "publishedAt": "2026-11-22T11:03:00.000Z"
         },
         {
-          "title": "Richpanel helps companies automate 50% of support in 30 days",
-          "url": "https://openai.com/business/customer-stories/richpanel-ai-customer-support",
-          "source": "OpenAI News",
-          "publishedAt": "2026-11-23T08:00:00.000Z"
+          "title": "EXCLUSIVE: Signal restricts screenshots to block AI agents from reading messages",
+          "url": "https://news.google.com/rss/articles/CBMitAFBVV95cUxQcmswbGtWU0V5UThMT3Rqd3lGVmJqeHE4NEE0S1h5eEpMTUZfRzU4NUxLbjZLU195X29ld20wa2xNVWIxZlREZ1U1OFZIY3VicFA2eEMwQmFTbWJTVk9CaHJFMktMNUU2a3Z6TlBhWmEwVE1TTzVfRkFRY2VLdGZ2cVIxR1NuWUVXaFFxRlZaQnNaM29JZnpuUV9hVEZNY3F1ZEZwaGx4QmlJa2t4MTBZQlJDZ3g?oc=5",
+          "source": "Reuters",
+          "publishedAt": "2026-11-20T21:33:22.000Z"
+        }
+      ]
+    },
+    {
+      "topic": "AI Deals, Funding & Pricing",
+      "items": [
+        {
+          "title": "Trump sealed deal for Nvidia to rehire Jensen Huang as CEO",
+          "url": "https://news.google.com/rss/articles/CBMib0FVX3lxTE9ab2habU9pTTllNmRCRDdqTjgwQ3hsVFZDX1hhVkJxaVVCWHNhYjRHLXFMaWtnME41NGZ1Z1REMkh1d2Y0NUJGamJSdVJQcV9rZEV1aW9nUlhHQWN1WkFSU3RRMnZrNEpobEp5bVBoY9IBdEFVX3lxTFBXNkNGSW1MaGlybGVOX0YtaVI0YVFfd3NYMi1BenZKN2Ewd1JJT3NMMjdpaElsRF9jSThyVzBHYlg4dUxocjBjYnV1dml4czdrWHR4akNId1g3SVJYa0oyRkdEUHJPMnRUVFpkbUpxWHRtWUxE?oc=5",
+          "source": "CNBC",
+          "publishedAt": "2026-11-23T15:08:28.000Z"
+        },
+        {
+          "title": "Anthropic’s record IPO collides with tech’s worst week on Wall Street since 2020",
+          "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTFBuZ3QwZ1Qzd0FwWVhzOWhhbWZ5YWEzNTI0anpyemhZQXF6LVM1d202X3VSVGthTFNUaE13UlNfWUx5VkNhTEduOHctbWZtVlloME45dGFBMDA3OGpWdDhXdTUxNFVhSFpya21aMnpGVHHSAXZBVV95cUxORlNoeVVtbW1fLU1EY01EellhNHg0VldaY0Y5R3Y5enVEaTdZZTZENDJMWFNrblBqTEtORGZFRlZacjBwOWQ2ZXNjSF9KZFNsNkQ4WEtTallYdnVHMm5JRVBMYWl5bHhlb19QUzlIcUZOTXh2U1hB?oc=5",
+          "source": "CNBC",
+          "publishedAt": "2026-11-21T13:00:01.000Z"
+        },
+        {
+          "title": "Anthropic IPO will create thousands of multimillionaire employees",
+          "url": "https://news.google.com/rss/articles/CBMipgFBVV95cUxNc2lPZDEwREFZVFFuTGdUQTVST3dfVzBMV284THIwQjQwbFVPVVU5cWY2bWttcnZwNU1fSVkzX20tM2lvWENNOFJsS2E5emQzem1OQXVCUTd2am01Uld6ZHpONkxYV0tpbkxDMXNkWVhoTXF1V0NOS1BRVkVXV2JZOGM5YjVGOEwzZlIwNHp2cThQc20yWEF6VzNvWTNfVXlLemxHQktn0gGrAUFVX3lxTFBpM2NWMk9LRVNJRUt1T1BQRmtscllDR3ltT2MtTUdzLW82dG1Zei1sRERxMFpNR1pVODNsbkpyVFZvM2JWcXRrREhySmVBMlNDMzl3VXVfdDhveUtsVEdhLU9EV09jQ1ZNb25yaG9nLU5QSjB5dFItTTUwWHpfY3VwV0VCQmZVTW4yQWRtaE1rUGJlWmF4cVczQWdpZkJEb2NZc1Fnd2FWMldaUQ?oc=5",
+          "source": "CNBC",
+          "publishedAt": "2026-11-19T12:30:01.000Z"
+        }
+      ]
+    },
+    {
+      "topic": "OpenAI Official",
+      "items": [
+        {
+          "title": "Perplexity and Intelligence",
+          "url": "https://openai.com/index/perplexity-and-intelligence",
+          "source": "OpenAI Official",
+          "publishedAt": "2026-11-22T00:00:00.000Z"
+        },
+        {
+          "title": "Combatting adversarial distillation",
+          "url": "https://openai.com/index/combatting-adversarial-distillation",
+          "source": "OpenAI Official",
+          "publishedAt": "2026-11-20T10:00:00.000Z"
+        },
+        {
+          "title": "Hebbia sees improvements in financial research with GPT-6 Astra",
+          "url": "https://openai.com/business/customer-stories/hebbia",
+          "source": "OpenAI Official",
+          "publishedAt": "2026-11-20T00:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "topic": "Google DeepMind Official",
+      "items": [
+        {
+          "title": "Finding faster quantum algorithms with agents and formal verification",
+          "url": "https://deepmind.google/blog/finding-faster-quantum-algorithms-with-agents-and-formal-verification/",
+          "source": "Google DeepMind Official",
+          "publishedAt": "2026-11-23T16:59:40.000Z"
+        },
+        {
+          "title": "Introducing Gemini 4 Neon",
+          "url": "https://deepmind.google/blog/introducing-gemini-4-neon/",
+          "source": "Google DeepMind Official",
+          "publishedAt": "2026-11-18T21:35:43.000Z"
+        }
+      ]
+    },
+    {
+      "topic": "Hugging Face & Open Weights",
+      "items": [
+        {
+          "title": "RoboTrack: Point tracking for real-world robotic manipulation",
+          "url": "https://huggingface.co/blog/allenai/robotrack",
+          "source": "Hugging Face & Open Weights",
+          "publishedAt": "2026-11-23T17:20:37.000Z"
+        },
+        {
+          "title": "How to build and maintain an agentic evaluation",
+          "url": "https://huggingface.co/blog/agentic-evals",
+          "source": "Hugging Face & Open Weights",
+          "publishedAt": "2026-11-23T00:00:00.000Z"
         }
       ]
     }
