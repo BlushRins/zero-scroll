@@ -246,19 +246,22 @@ export function buildBriefingDiscordPayload(briefing, timeZone = 'Asia/Manila') 
 
   const newsTopics = (briefing.news || []).filter((s) => s.items && s.items.length > 0);
   if (newsTopics.length > 0) {
-    const fields = newsTopics.slice(0, 6).map((sec) => ({
+    const allFields = newsTopics.slice(0, 8).map((sec) => ({
       name: truncate(sec.topic, 250),
       value: truncate(
-        sec.items.map((it) => `- [${truncate(it.title, 110)}](${it.url}) (${it.source})`).join('\n'),
-        1000
+        sec.items.map((it) => `- [${truncate(it.title, 95)}](${it.url}) (${it.source})`).join('\n'),
+        950
       ),
       inline: false,
     }));
-    embeds.push({
-      title: 'Topic News',
-      color: 0x1f1c18,
-      fields,
-    });
+    // Split news fields across embeds (max 4 fields per embed) to stay safely within Discord's 6000-char limit
+    for (let i = 0; i < allFields.length; i += 4) {
+      embeds.push({
+        title: i === 0 ? 'AI News & Updates' : 'Official AI Feeds & More',
+        color: 0x1f1c18,
+        fields: allFields.slice(i, i + 4),
+      });
+    }
   }
 
   if ((briefing.readLater || []).length > 0) {
@@ -269,7 +272,7 @@ export function buildBriefingDiscordPayload(briefing, timeZone = 'Asia/Manila') 
           item.url,
           ...(item.bullets || []).map((b) => `- ${b}`),
         ].join('\n'),
-        1000
+        950
       ),
       inline: false,
     }));
@@ -280,9 +283,39 @@ export function buildBriefingDiscordPayload(briefing, timeZone = 'Asia/Manila') 
     });
   }
 
+  // Enforce Discord's 6000-character total across all embed fields/titles/descriptions
+  const measureEmbed = (emb) =>
+    (emb.title?.length || 0) +
+    (emb.description?.length || 0) +
+    (emb.fields || []).reduce((sum, f) => sum + (f.name?.length || 0) + (f.value?.length || 0), 0);
+
+  const safeEmbeds = [];
+  let charBudget = 5600;
+  for (const emb of embeds.slice(0, 10)) {
+    const size = measureEmbed(emb);
+    if (size <= charBudget) {
+      safeEmbeds.push(emb);
+      charBudget -= size;
+    } else if (emb.fields && emb.fields.length > 0 && charBudget > 300) {
+      const kept = [];
+      let rem = charBudget - (emb.title?.length || 0);
+      for (const f of emb.fields) {
+        const fs = (f.name?.length || 0) + (f.value?.length || 0);
+        if (fs <= rem) {
+          kept.push(f);
+          rem -= fs;
+        }
+      }
+      if (kept.length > 0) {
+        safeEmbeds.push({ ...emb, fields: kept });
+        charBudget = rem;
+      }
+    }
+  }
+
   return {
     username: 'ZeroScroll',
-    embeds: embeds.slice(0, 10),
+    embeds: safeEmbeds,
   };
 }
 

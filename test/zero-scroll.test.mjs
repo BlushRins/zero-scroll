@@ -160,6 +160,47 @@ test('parseFeedXml and fetchNewsDigest parse RSS/Atom and deduplicate seen URLs'
   );
   assert.equal(digest.sections[0].items.length, 1);
   assert.equal(digest.sections[0].items[0].url, 'https://example.com/news/2');
+
+  // Verify trustedSources, excludePatterns (anti-fake leaks), and freshness window
+  const mixedRss = `<?xml version="1.0"?><rss version="2.0"><channel>
+    <item>
+      <title>OpenAI internal roadmap leaked to reporters - Reuters</title>
+      <link>https://example.com/real-leak</link>
+      <pubDate>Tue, 24 Nov 2026 02:00:00 GMT</pubDate>
+      <source>Reuters</source>
+    </item>
+    <item>
+      <title>Unconfirmed GPT-9 rumor goes viral on TikTok - RandomBlog</title>
+      <link>https://example.com/fake-leak</link>
+      <pubDate>Tue, 24 Nov 2026 02:00:00 GMT</pubDate>
+      <source>RandomBlog</source>
+    </item>
+    <item>
+      <title>Unconfirmed rumor about AI chip - Reuters</title>
+      <link>https://example.com/rumor-reuters</link>
+      <pubDate>Tue, 24 Nov 2026 02:00:00 GMT</pubDate>
+      <source>Reuters</source>
+    </item>
+    <item>
+      <title>Old AI announcement from last month - Reuters</title>
+      <link>https://example.com/stale-news</link>
+      <pubDate>Thu, 01 Oct 2026 02:00:00 GMT</pubDate>
+      <source>Reuters</source>
+    </item>
+  </channel></rss>`;
+
+  const vetted = await fetchNewsDigest(
+    {
+      maxAgeDays: 7,
+      excludePatterns: ['\\brumou?r\\b', '\\bunconfirmed\\b', '\\btiktok\\b'],
+      topics: [{ name: 'Verified Leaks', query: 'AI leak', maxItems: 5, trustedSources: ['Reuters', 'Bloomberg'] }],
+      feeds: [],
+    },
+    { version: 1, urls: {} },
+    { fetch: async () => new Response(mixedRss, { status: 200 }), now: new Date('2026-11-24T04:00:00.000Z') }
+  );
+  assert.equal(vetted.sections[0].items.length, 1);
+  assert.equal(vetted.sections[0].items[0].url, 'https://example.com/real-leak');
 });
 
 test('summarizer extracts article paragraphs and builds deterministic 3-bullet summaries offline', async () => {

@@ -9,7 +9,7 @@
     "unit": "celsius"
   },
   "briefing": {
-    "maxNewsPerTopic": 4,
+    "maxNewsPerTopic": 3,
     "maxReadLaterItems": 5,
     "lookaheadDays": 7,
     "markReadLaterDigested": true
@@ -18,23 +18,120 @@
     "leadHours": [24, 2]
   },
   "news": {
+    "maxAgeDays": 7,
+    "excludePatterns": [
+      "\\brumou?r(s|ed)?\\b",
+      "\\bunconfirmed\\b",
+      "\\bhoax\\b",
+      "\\bapril\\s+fools\\b",
+      "\\breddit\\s+user\\s+claims\\b",
+      "\\btiktok\\b",
+      "\\bclickbait\\b"
+    ],
     "topics": [
       {
-        "name": "OpenAI",
-        "query": "OpenAI",
-        "maxItems": 4
+        "name": "Famous AI News & Updates",
+        "query": "(OpenAI OR Anthropic OR \"Google DeepMind\" OR Gemini OR Claude OR \"Meta AI\" OR xAI OR Grok OR Mistral OR Nvidia) AI (launch OR release OR update OR model OR announces) when:3d",
+        "maxItems": 4,
+        "trustedSources": [
+          "Reuters",
+          "Bloomberg",
+          "The Information",
+          "Financial Times",
+          "The Wall Street Journal",
+          "The New York Times",
+          "The Verge",
+          "TechCrunch",
+          "Ars Technica",
+          "WIRED",
+          "MIT Technology Review",
+          "CNBC",
+          "Associated Press",
+          "VentureBeat",
+          "The Decoder",
+          "The Guardian",
+          "404 Media",
+          "BBC"
+        ]
       },
       {
-        "name": "AI & Dev Tools",
-        "query": "Anthropic OR \"Google DeepMind\" OR \"Claude Code\" OR \"open weights\" AI",
-        "maxItems": 4
+        "name": "AI Dev Tools & Releases",
+        "query": "(\"Claude Code\" OR Cursor OR \"OpenAI Codex\" OR \"GitHub Copilot\" OR Windsurf OR \"Model Context Protocol\" OR Ollama OR vLLM OR \"Hugging Face\" OR \"AI coding\") (update OR release OR launch OR new OR agent) when:5d",
+        "maxItems": 3,
+        "trustedSources": [
+          "Reuters",
+          "Bloomberg",
+          "The Information",
+          "TechCrunch",
+          "The Verge",
+          "Ars Technica",
+          "WIRED",
+          "CNBC",
+          "VentureBeat",
+          "The Decoder",
+          "MIT Technology Review",
+          "InfoQ",
+          "The New Stack",
+          "ZDNET",
+          "404 Media",
+          "The Register",
+          "GitHub"
+        ]
+      },
+      {
+        "name": "Verified AI Leaks & Early Reports",
+        "query": "(OpenAI OR Anthropic OR \"Google DeepMind\" OR Nvidia OR \"Meta AI\" OR xAI OR Apple AI) (leak OR leaked OR unreleased OR exclusive OR \"in talks\" OR internal OR roadmap) (site:reuters.com OR site:bloomberg.com OR site:theinformation.com OR site:theverge.com OR site:techcrunch.com OR site:ft.com OR site:wsj.com OR site:wired.com OR site:404media.co OR site:arstechnica.com OR site:nytimes.com OR site:cnbc.com) when:7d",
+        "maxItems": 3,
+        "trustedSources": [
+          "Reuters",
+          "Bloomberg",
+          "The Information",
+          "Financial Times",
+          "The Wall Street Journal",
+          "The New York Times",
+          "The Verge",
+          "TechCrunch",
+          "Ars Technica",
+          "WIRED",
+          "CNBC",
+          "404 Media"
+        ]
+      },
+      {
+        "name": "AI Deals, Funding & Pricing",
+        "query": "(OpenAI OR Anthropic OR Nvidia OR DeepMind OR Mistral OR xAI OR Perplexity OR Cursor OR Groq OR Databricks) (deal OR acquires OR acquisition OR funding OR raises OR billion OR partnership OR \"price cut\" OR \"free tier\" OR pricing) when:5d",
+        "maxItems": 3,
+        "trustedSources": [
+          "Reuters",
+          "Bloomberg",
+          "The Information",
+          "Financial Times",
+          "The Wall Street Journal",
+          "The New York Times",
+          "The Verge",
+          "TechCrunch",
+          "CNBC",
+          "VentureBeat",
+          "Ars Technica",
+          "WIRED"
+        ]
       }
     ],
     "feeds": [
       {
-        "name": "OpenAI News",
+        "name": "OpenAI Official",
         "url": "https://openai.com/news/rss.xml",
         "maxItems": 3
+      },
+      {
+        "name": "Google DeepMind Official",
+        "url": "https://deepmind.google/blog/rss.xml",
+        "maxItems": 2
+      },
+      {
+        "name": "Hugging Face & Open Weights",
+        "url": "https://huggingface.co/blog/feed.xml",
+        "maxItems": 2
       }
     ]
   },

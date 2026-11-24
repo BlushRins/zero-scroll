@@ -113,10 +113,41 @@ export function pruneSeenUrls(seenStore, maxAgeDays = 30, now = new Date()) {
   return { version: 1, urls: next };
 }
 
+function matchesTrustedSource(sourceName, trustedSources) {
+  if (!Array.isArray(trustedSources) || trustedSources.length === 0) return true;
+  const norm = String(sourceName || '').toLowerCase().replace(/^www\./, '').trim();
+  if (!norm) return false;
+  return trustedSources.some((trusted) => {
+    const t = String(trusted).toLowerCase().trim();
+    return t && (norm === t || norm.includes(t) || t.includes(norm));
+  });
+}
+
+function matchesExcludePatterns(title, patterns) {
+  if (!Array.isArray(patterns) || patterns.length === 0) return false;
+  return patterns.some((re) => re.test(title));
+}
+
+function isFreshEnough(publishedAt, maxAgeDays, now) {
+  if (!publishedAt || !maxAgeDays || maxAgeDays <= 0) return true;
+  const ms = new Date(publishedAt).getTime();
+  if (Number.isNaN(ms)) return true;
+  return now.getTime() - ms <= maxAgeDays * 86_400_000;
+}
+
 export async function fetchNewsDigest(newsConfig, seenStore, options = {}) {
   const fetchImpl = options.fetch || globalThis.fetch;
   const now = options.now instanceof Date ? options.now : new Date();
   const maxPerTopicDefault = options.maxNewsPerTopic ?? 4;
+  const defaultMaxAgeDays = newsConfig?.maxAgeDays ?? 7;
+  const globalExcludes = (newsConfig?.excludePatterns || []).map((p) => {
+    try {
+      return new RegExp(p, 'i');
+    } catch {
+      return null;
+    }
+  }).filter(Boolean);
+
   const pruned = pruneSeenUrls(seenStore, 30, now);
   const seenUrls = { ...pruned.urls };
   const batchKeys = new Set();
@@ -128,11 +159,22 @@ export async function fetchNewsDigest(newsConfig, seenStore, options = {}) {
       name: t.name,
       url: buildGoogleNewsUrl(t.query || t.name),
       maxItems: t.maxItems ?? maxPerTopicDefault,
+      trustedSources: t.trustedSources || null,
+      maxAgeDays: t.maxAgeDays ?? defaultMaxAgeDays,
+      excludePatterns: [
+        ...globalExcludes,
+        ...(t.excludePatterns || []).map((p) => new RegExp(p, 'i')),
+      ],
+      isDirectFeed: false,
     })),
     ...(newsConfig?.feeds || []).map((f) => ({
       name: f.name,
       url: f.url,
       maxItems: f.maxItems ?? maxPerTopicDefault,
+      trustedSources: f.trustedSources || null,
+      maxAgeDays: f.maxAgeDays ?? Math.max(defaultMaxAgeDays, 14),
+      excludePatterns: globalExcludes,
+      isDirectFeed: true,
     })),
   ];
 
@@ -140,7 +182,7 @@ export async function fetchNewsDigest(newsConfig, seenStore, options = {}) {
   for (let i = 0; i < sources.length; i++) {
     const src = sources[i];
     if (isRealFetch && i > 0) {
-      await new Promise((r) => setTimeout(r, 500));
+      await new Promise((r) => setTimeout(r, 600));
     }
     try {
       const fetchOnce = () =>
@@ -153,7 +195,7 @@ export async function fetchNewsDigest(newsConfig, seenStore, options = {}) {
         });
       let res = await fetchOnce();
       if (res.status === 429 && isRealFetch) {
-        await new Promise((r) => setTimeout(r, 1500));
+        await new Promise((r) => setTimeout(r, 1800));
         res = await fetchOnce();
       }
       if (!res.ok) {
@@ -164,6 +206,10 @@ export async function fetchNewsDigest(newsConfig, seenStore, options = {}) {
       const parsed = parseFeedXml(xml, src.name);
       const fresh = [];
       for (const item of parsed) {
+        if (!isFreshEnough(item.publishedAt, src.maxAgeDays, now)) continue;
+        if (!src.isDirectFeed && !matchesTrustedSource(item.source, src.trustedSources)) continue;
+        if (matchesExcludePatterns(item.title, src.excludePatterns)) continue;
+
         const key = normalizeUrlKey(item.url);
         const titleKey = `title:${item.title.toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim()}`;
         if (seenUrls[key] || batchKeys.has(key) || batchKeys.has(titleKey)) continue;

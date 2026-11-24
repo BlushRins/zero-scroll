@@ -17,7 +17,7 @@ Open **Settings -> Secrets and variables -> Actions** in your GitHub repository 
 
 | Secret | Required? | How to get it |
 | --- | --- | --- |
-| `DISCORD_WEBHOOK_URL` | For Discord | Discord Server Settings -> Integrations -> Webhooks -> Copy Webhook URL |
+| `DISCORD_WEBHOOK_URL` (or `DISCORD`) | For Discord | Discord Server Settings -> Integrations -> Webhooks -> Copy Webhook URL |
 | `GMAIL_USER` | For Gmail | Your Gmail address |
 | `GMAIL_APP_PASSWORD` | For Gmail | Google Account -> Security -> 2-Step Verification -> [App passwords](https://myaccount.google.com/apppasswords) |
 | `GMAIL_TO` | Optional | Recipient email (defaults to `GMAIL_USER`) |
