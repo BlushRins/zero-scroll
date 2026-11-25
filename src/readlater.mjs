@@ -22,6 +22,16 @@ export async function saveReadLater(rawUrl, options = {}) {
   const rootDir = options.rootDir || DEFAULT_ROOT;
   const { env, paths } = loadRuntime(rootDir);
   const store = readJson(paths.readLater, EMPTY_READLATER);
+  let parsed;
+  try {
+    parsed = new URL(rawUrl);
+  } catch {
+    throw new Error('Invalid URL.');
+  }
+  if (parsed.protocol !== 'http:' && parsed.protocol !== 'https:') {
+    throw new Error('Only http and https URLs are supported.');
+  }
+  const parsedHost = parsed.hostname.replace(/^www\./, '');
   const normKey = normalizeUrlKey(rawUrl);
 
   const existing = (store.items || []).find((it) => normalizeUrlKey(it.url) === normKey);
@@ -29,12 +39,6 @@ export async function saveReadLater(rawUrl, options = {}) {
     return existing;
   }
 
-  let parsedHost = '';
-  try {
-    parsedHost = new URL(rawUrl).hostname.replace(/^www\./, '');
-  } catch {
-    throw new Error(`Invalid URL: ${rawUrl}`);
-  }
 
   let summary = null;
   if (!options.skipFetch) {

@@ -67,7 +67,12 @@ export function updateInboxItem(id, patch, options = {}) {
     next.priority = patch.priority;
   }
   if (patch.dueAt !== undefined) {
-    next.dueAt = patch.dueAt ? new Date(patch.dueAt).toISOString() : null;
+    if (patch.dueAt === null || patch.dueAt === '') next.dueAt = null;
+    else {
+      const date = typeof patch.dueAt === 'string' ? new Date(patch.dueAt) : null;
+      if (!date || !Number.isFinite(date.getTime())) throw new Error('Invalid due date.');
+      next.dueAt = date.toISOString();
+    }
     next.remindedStages = [];
   }
   if (Array.isArray(patch.tags)) {

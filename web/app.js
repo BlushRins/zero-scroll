@@ -1,20 +1,10 @@
+import { parseBrainDump } from './parser.mjs';
+
 const STORAGE_KEYS = {
   inbox: 'zeroscroll_inbox_v1',
   readLater: 'zeroscroll_readlater_v1',
   briefing: 'zeroscroll_briefing_v1',
   sync: 'zeroscroll_sync_v1',
-};
-
-const WEEKDAYS = {
-  sun: 0, sunday: 0, mon: 1, monday: 1, tue: 2, tues: 2, tuesday: 2,
-  wed: 3, wednesday: 3, thu: 4, thur: 4, thurs: 4, thursday: 4,
-  fri: 5, friday: 5, sat: 6, saturday: 6,
-};
-
-const MONTHS = {
-  jan: 0, january: 0, feb: 1, february: 1, mar: 2, march: 2, apr: 3, april: 3,
-  may: 4, jun: 5, june: 5, jul: 6, july: 6, aug: 7, august: 7,
-  sep: 8, september: 8, oct: 9, october: 9, nov: 10, november: 10, dec: 11, december: 11,
 };
 
 const state = {
@@ -63,140 +53,40 @@ function makeClientId(prefix) {
 }
 
 function parseClientCapture(rawText) {
-  const raw = rawText.trim();
-  const tags = [];
-  const withoutTags = raw
-    .replace(/(?:^|\s)#([a-z0-9][a-z0-9_-]{0,31})/gi, (_, tag) => {
-      const norm = tag.toLowerCase();
-      if (!tags.includes(norm)) tags.push(norm);
-      return ' ';
-    })
-    .replace(/\s+/g, ' ')
-    .trim();
-
-  const urlMatch = withoutTags.match(/https?:\/\/[^\s<>()]+/i);
-  if (urlMatch) {
-    const url = urlMatch[0].replace(/[.,;:!?)]+$/, '');
-    const note = withoutTags.replace(urlMatch[0], ' ').replace(/^(?:read|watch|save)\s*:\s*/i, '').trim();
-    let host = '';
-    try { host = new URL(url).hostname.replace(/^www\./, ''); } catch { host = 'web'; }
+  const now = new Date();
+  const parsed = parseBrainDump(rawText, { now });
+  if (parsed.route === 'readlater') {
+    const url = safeWebUrl(parsed.url);
+    if (!url) throw new Error('Enter a valid web link.');
+    const host = new URL(url).hostname.replace(/^www\./, '');
     return {
       route: 'readlater',
       item: {
         id: makeClientId('rl'),
         url,
-        title: note || host || url,
+        title: parsed.note || host,
         source: host,
-        kind: /youtu\.?be/i.test(host) ? 'video' : 'article',
-        note,
-        tags,
+        kind: ['youtube.com', 'youtu.be', 'm.youtube.com'].includes(host) ? 'video' : 'article',
+        note: parsed.note,
+        tags: parsed.tags,
         readingMinutes: null,
-        bullets: ['Queued for three-bullet summary in the next Morning Briefing run.'],
+        bullets: [],
         status: 'unread',
-        savedAt: new Date().toISOString(),
+        savedAt: now.toISOString(),
         digestedAt: null,
       },
     };
   }
-
-  let working = withoutTags;
-  let dueAt = null;
-  const now = new Date();
-
-  const relMatch = working.match(/\bin\s+(\d+)\s*(m|min|mins|minute|minutes|h|hr|hrs|hour|hours|d|day|days)\b/i);
-  if (relMatch) {
-    const qty = Number(relMatch[1]);
-    const unit = relMatch[2].toLowerCase();
-    const mult = unit.startsWith('m') ? 60_000 : unit.startsWith('h') ? 3_600_000 : 86_400_000;
-    dueAt = new Date(now.getTime() + qty * mult).toISOString();
-    working = working.replace(relMatch[0], ' ').replace(/\s+/g, ' ').trim();
-  } else {
-    let time = null;
-    const tMatch = working.match(/\b(?:at\s+)?(\d{1,2}(?::\d{2})?\s*(?:am|pm)|(?:[01]?\d|2[0-3]):[0-5]\d|noon|midnight)\b/i);
-    if (tMatch) {
-      const s = tMatch[1].toLowerCase();
-      if (s === 'noon') time = { h: 12, m: 0 };
-      else if (s === 'midnight') time = { h: 0, m: 0 };
-      else {
-        const ap = s.match(/^(\d{1,2})(?::(\d{2}))?\s*(am|pm)$/);
-        if (ap) {
-          let h = Number(ap[1]);
-          const m = Number(ap[2] || 0);
-          if (ap[3] === 'pm' && h !== 12) h += 12;
-          if (ap[3] === 'am' && h === 12) h = 0;
-          time = { h, m };
-        } else {
-          const [h, m] = s.split(':').map(Number);
-          time = { h, m };
-        }
-      }
-      working = working.replace(tMatch[0], ' ').replace(/\s+/g, ' ').trim();
-    }
-
-    const setDay = (offset, defaultHour = 9) => {
-      const d = new Date(now);
-      d.setDate(d.getDate() + offset);
-      d.setHours(time ? time.h : defaultHour, time ? time.m : 0, 0, 0);
-      return d.toISOString();
-    };
-
-    const mRe = new RegExp(`\\b(?:on\\s+|by\\s+)?(${Object.keys(MONTHS).join('|')})\\s+(\\d{1,2})(?:st|nd|rd|th)?\\b`, 'i');
-    const wdRe = new RegExp(`\\b(?:(?:on|by)\\s+)?(next\\s+)?(${Object.keys(WEEKDAYS).join('|')})\\b`, 'i');
-
-    if (/\b(?:by\s+)?(today|tonight)\b/i.test(working)) {
-      const m = working.match(/\b(?:by\s+)?(today|tonight)\b/i);
-      dueAt = setDay(0, m[1].toLowerCase() === 'tonight' ? 20 : 18);
-      working = working.replace(m[0], ' ').trim();
-    } else if (/\b(?:by\s+|on\s+)?(tomorrow|tmr|tmrw)\b/i.test(working)) {
-      const m = working.match(/\b(?:by\s+|on\s+)?(tomorrow|tmr|tmrw)\b/i);
-      dueAt = setDay(1, 9);
-      working = working.replace(m[0], ' ').trim();
-    } else if (mRe.test(working)) {
-      const m = working.match(mRe);
-      const d = new Date(now.getFullYear(), MONTHS[m[1].toLowerCase()], Number(m[2]), time ? time.h : 9, time ? time.m : 0);
-      if (d.getTime() < now.getTime() - 86_400_000) d.setFullYear(d.getFullYear() + 1);
-      dueAt = d.toISOString();
-      working = working.replace(m[0], ' ').trim();
-    } else if (wdRe.test(working)) {
-      const m = working.match(wdRe);
-      const target = WEEKDAYS[m[2].toLowerCase()];
-      let delta = (target - now.getDay() + 7) % 7;
-      if (delta === 0) delta = 7;
-      if (m[1] && delta < 7) delta += 7;
-      dueAt = setDay(delta, 9);
-      working = working.replace(m[0], ' ').trim();
-    } else if (time) {
-      const d = new Date(now);
-      d.setHours(time.h, time.m, 0, 0);
-      if (d.getTime() <= now.getTime()) d.setDate(d.getDate() + 1);
-      dueAt = d.toISOString();
-    }
-  }
-
-  const lower = withoutTags.toLowerCase();
-  let kind = 'note';
-  if (/^(idea|note|thought)\s*:/i.test(lower)) kind = 'note';
-  else if (/^(event|meeting|cal)\s*:/i.test(lower) || /\b(quiz|exam|class|meeting|call with|appointment|dinner|flight)\b/i.test(lower)) kind = 'event';
-  else if (/^(task|todo|remind)\s*:/i.test(lower) || dueAt || /^(buy|submit|finish|send|email|fix|build|pay|review|study|check)\b/i.test(lower)) kind = 'task';
-
-  const priority = /!|\b(urgent|asap|exam|quiz|deadline|submit|important)\b/i.test(raw) ? 'high' : 'normal';
-  const title = working
-    .replace(/^(?:idea|note|thought|event|meeting|task|todo|reminder)\s*:\s*/i, '')
-    .replace(/^remind\s+me\s+(?:to\s+)?/i, '')
-    .replace(/\s+(?:on|at|by)$/i, '')
-    .replace(/\s+/g, ' ')
-    .trim() || raw;
-
   return {
     route: 'inbox',
     item: {
       id: makeClientId('inb'),
-      kind,
-      title,
-      raw,
-      dueAt,
-      tags,
-      priority,
+      kind: parsed.kind,
+      title: parsed.title,
+      raw: parsed.raw,
+      dueAt: parsed.dueAt,
+      tags: parsed.tags,
+      priority: parsed.priority,
       done: false,
       remindedStages: [],
       createdAt: now.toISOString(),
@@ -522,9 +412,11 @@ function renderBriefing() {
       for (const item of group.items) {
         const li = document.createElement('li');
         li.className = 'news-item';
+        const url = safeWebUrl(item.url);
+        if (!url) continue;
         const a = document.createElement('a');
         a.className = 'news-item__link';
-        a.href = item.url;
+        a.href = url;
         a.target = '_blank';
         a.rel = 'noopener noreferrer';
         a.textContent = item.title;
@@ -553,17 +445,30 @@ function renderBriefing() {
   }
 }
 
+function safeWebUrl(value) {
+  try {
+    const url = new URL(value);
+    if (url.protocol === 'https:' || url.protocol === 'http:') return url.href;
+  } catch {
+    // Missing or malformed URL.
+  }
+  return null;
+}
+
 function buildDigestNode(item, withActions = true) {
   const card = document.createElement('article');
   card.className = 'digest-item';
 
   const head = document.createElement('div');
   head.className = 'digest-item__head';
-  const link = document.createElement('a');
+  const url = safeWebUrl(item.url);
+  const link = document.createElement(url ? 'a' : 'span');
   link.className = 'digest-item__title';
-  link.href = item.url;
-  link.target = '_blank';
-  link.rel = 'noopener noreferrer';
+  if (url) {
+    link.href = url;
+    link.target = '_blank';
+    link.rel = 'noopener noreferrer';
+  }
   link.textContent = item.title || item.url;
   head.append(link);
 
@@ -850,38 +755,7 @@ async function toggleInboxDone(item) {
 }
 
 async function removeInboxItem(item) {
-  const prev = [...state.inbox];
-  state.inbox = state.inbox.filter((x) => x.id !== item.id);
-  renderAll();
-
-  scheduleUndo(`Removed "${item.title}".`, async () => {
-    state.inbox = prev;
-    renderAll();
-    if (state.mode === 'local') {
-      await fetch('/api/dump', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ text: item.raw || item.title, kind: item.kind }),
-      });
-      await loadState();
-    } else {
-      saveOfflineMirror();
-      await persistGitHubList('inbox', `Restore inbox item: ${item.title.slice(0, 48)}`);
-    }
-  });
-
-  try {
-    if (state.mode === 'local') {
-      await fetch(`/api/inbox/${item.id}`, { method: 'DELETE' });
-    } else {
-      saveOfflineMirror();
-      await persistGitHubList('inbox', `Remove inbox item: ${item.title.slice(0, 48)}`);
-    }
-  } catch (err) {
-    state.inbox = prev;
-    renderAll();
-    setCaptureHelper(err.message || 'Could not remove item.', true);
-  }
+  await removeItem('inbox', item);
 }
 
 async function toggleReadLaterStatus(item) {
@@ -907,38 +781,53 @@ async function toggleReadLaterStatus(item) {
 }
 
 async function removeReadLater(item) {
-  const prev = [...state.readLater];
-  state.readLater = state.readLater.filter((x) => x.id !== item.id);
-  renderAll();
+  await removeItem('readlater', item);
+}
 
-  scheduleUndo(`Removed "${item.title}".`, async () => {
-    state.readLater = prev;
+async function removeItem(type, item) {
+  const list = type === 'inbox' ? 'inbox' : 'readLater';
+  const target = `/api/${type}/${encodeURIComponent(item.id)}`;
+  const local = state.mode === 'local';
+  if (!state[list].some((entry) => entry.id === item.id)) return;
+  const putBack = (restored) => {
+    if (!state[list].some((entry) => entry.id === restored.id)) state[list].unshift(restored);
     renderAll();
-    if (state.mode === 'local') {
-      await fetch('/api/readlater', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ url: item.url, note: item.note }),
-      });
-      await loadState();
-    } else {
+  };
+  const request = async (url, method) => {
+    const response = await fetch(url, { method });
+    const data = await response.json();
+    if (!response.ok) throw new Error(data.error || 'Could not update item.');
+    return data;
+  };
+  state[list] = state[list].filter((entry) => entry.id !== item.id);
+  renderAll();
+  try {
+    if (local) await request(target, 'DELETE');
+    else {
+      await persistGitHubList(type, `Remove ${type} item: ${item.title.slice(0, 48)}`);
       saveOfflineMirror();
-      await persistGitHubList('readlater', `Restore link: ${item.title.slice(0, 45)}`);
+    }
+  } catch (error) {
+    putBack(item);
+    setCaptureHelper(error.message || 'Could not remove item.', true);
+    return;
+  }
+  scheduleUndo(`Removed "${item.title}".`, async () => {
+    if (local) {
+      const { item: restored } = await request(`${target}/restore`, 'POST');
+      putBack(restored);
+      return;
+    }
+    putBack(item);
+    try {
+      await persistGitHubList(type, `Restore ${type} item: ${item.title.slice(0, 48)}`);
+      saveOfflineMirror();
+    } catch (error) {
+      state[list] = state[list].filter((entry) => entry.id !== item.id);
+      renderAll();
+      throw error;
     }
   });
-
-  try {
-    if (state.mode === 'local') {
-      await fetch(`/api/readlater/${item.id}`, { method: 'DELETE' });
-    } else {
-      saveOfflineMirror();
-      await persistGitHubList('readlater', `Remove link: ${item.title.slice(0, 45)}`);
-    }
-  } catch (err) {
-    state.readLater = prev;
-    renderAll();
-    setCaptureHelper(err.message || 'Could not remove link.', true);
-  }
 }
 
 async function triggerBriefing(deliver = false) {
@@ -1011,7 +900,9 @@ function wireEvents() {
     el('undo-bar').hidden = true;
     const fn = state.pendingUndo;
     state.pendingUndo = null;
-    if (fn) await fn();
+    if (fn) {
+      try { await fn(); } catch (error) { setCaptureHelper(error.message || 'Could not restore item.', true); }
+    }
   });
 
   el('run-briefing-btn').addEventListener('click', () => triggerBriefing(false));

@@ -6,7 +6,7 @@ import { runMorningBriefing } from './briefing.mjs';
 import { DEFAULT_ROOT, loadRuntime, saveConfig } from './config.mjs';
 import { addBrainDump, deleteInboxItem, listInbox, updateInboxItem } from './inbox.mjs';
 import { deleteReadLaterItem, listReadLater, saveReadLater, updateReadLaterItem } from './readlater.mjs';
-import { readJson } from './store.mjs';
+import { readJson, writeJson } from './store.mjs';
 
 const MIME_TYPES = {
   '.html': 'text/html; charset=utf-8',
@@ -57,6 +57,15 @@ function readJsonBody(req, maxBytes = 262_144) {
 
 export function createAppServer(options = {}) {
   const rootDir = options.rootDir || DEFAULT_ROOT;
+
+  const deleted = new Map();
+
+  function rememberDeletion(key, item) {
+    const existing = deleted.get(key);
+    if (existing) clearTimeout(existing.timeout);
+    const timeout = setTimeout(() => deleted.delete(key), 15_000).unref();
+    deleted.set(key, { item, timeout });
+  }
 
   return http.createServer(async (req, res) => {
     try {
@@ -111,6 +120,7 @@ export function createAppServer(options = {}) {
       if (inboxMatch && req.method === 'DELETE') {
         const removed = deleteInboxItem(inboxMatch[1], { rootDir });
         if (!removed) return sendJson(res, 404, { error: 'Inbox item not found.' });
+        rememberDeletion(pathname, removed);
         return sendJson(res, 200, { removed });
       }
 
@@ -136,7 +146,24 @@ export function createAppServer(options = {}) {
       if (rlMatch && req.method === 'DELETE') {
         const removed = deleteReadLaterItem(rlMatch[1], { rootDir });
         if (!removed) return sendJson(res, 404, { error: 'Read-Later item not found.' });
+        rememberDeletion(pathname, removed);
         return sendJson(res, 200, { removed });
+      }
+
+      const restoreMatch = pathname.match(/^(\/api\/(inbox|readlater)\/[a-z0-9_]+)\/restore$/i);
+      if (restoreMatch && req.method === 'POST') {
+        const [, key, list] = restoreMatch;
+        const record = deleted.get(key);
+        if (!record) return sendJson(res, 404, { error: 'This item is no longer available to restore.' });
+        const file = list === 'inbox' ? paths.inbox : paths.readLater;
+        const store = readJson(file, { version: 1, items: [] });
+        if (!store.items.some((item) => item.id === record.item.id)) {
+          store.items.unshift(record.item);
+          writeJson(file, store);
+        }
+        clearTimeout(record.timeout);
+        deleted.delete(key);
+        return sendJson(res, 200, { item: record.item });
       }
 
       if (pathname === '/api/briefing/run' && req.method === 'POST') {
@@ -161,6 +188,12 @@ export function createAppServer(options = {}) {
           timezone: body.timezone || config.timezone,
           weather: { ...config.weather, ...(body.weather || {}) },
           news: {
+            ...config.news,
+            maxAgeDays: Number.isInteger(body.news?.maxAgeDays) && body.news.maxAgeDays >= 0
+              ? body.news.maxAgeDays : config.news.maxAgeDays,
+            excludePatterns: Array.isArray(body.news?.excludePatterns)
+              && body.news.excludePatterns.every((pattern) => typeof pattern === 'string')
+              ? body.news.excludePatterns : config.news.excludePatterns,
             topics: Array.isArray(body.news?.topics) ? body.news.topics : config.news.topics,
             feeds: Array.isArray(body.news?.feeds) ? body.news.feeds : config.news.feeds,
           },
@@ -179,7 +212,7 @@ export function createAppServer(options = {}) {
       // Static web files
       const safeRel = pathname === '/' ? 'index.html' : pathname.replace(/^\/+/, '');
       const resolved = path.resolve(paths.webDir, safeRel);
-      if (!resolved.startsWith(path.resolve(paths.webDir))) {
+      if (!resolved.startsWith(path.resolve(paths.webDir) + path.sep)) {
         return sendJson(res, 403, { error: 'Forbidden' });
       }
       if (!fs.existsSync(resolved) || fs.statSync(resolved).isDirectory()) {

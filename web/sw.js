@@ -1,5 +1,5 @@
-const CACHE_NAME = 'zeroscroll-shell-v1';
-const ASSETS = ['./', './index.html', './tokens.css', './base.css', './styles.css', './app.js', './icon.svg'];
+const CACHE_NAME = 'zeroscroll-shell-v2';
+const ASSETS = ['./', './index.html', './tokens.css', './base.css', './styles.css', './app.js', './parser.mjs', './icon.svg'];
 
 self.addEventListener('install', (event) => {
   event.waitUntil(caches.open(CACHE_NAME).then((cache) => cache.addAll(ASSETS)));

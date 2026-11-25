@@ -115,11 +115,20 @@ export function pruneSeenUrls(seenStore, maxAgeDays = 30, now = new Date()) {
 
 function matchesTrustedSource(sourceName, trustedSources) {
   if (!Array.isArray(trustedSources) || trustedSources.length === 0) return true;
-  const norm = String(sourceName || '').toLowerCase().replace(/^www\./, '').trim();
-  if (!norm) return false;
-  return trustedSources.some((trusted) => {
-    const t = String(trusted).toLowerCase().trim();
-    return t && (norm === t || norm.includes(t) || t.includes(norm));
+  const normalize = (value) => String(value || '').trim().toLowerCase().replace(/^www\./, '');
+  const norm = normalize(sourceName);
+  return Boolean(norm) && trustedSources.some((trusted) => normalize(trusted) === norm);
+}
+
+function compileExcludes(patterns) {
+  if (!Array.isArray(patterns)) return [];
+  return patterns.flatMap((pattern) => {
+    if (typeof pattern !== 'string') return [];
+    try {
+      return [new RegExp(pattern, 'i')];
+    } catch {
+      return [];
+    }
   });
 }
 
@@ -140,13 +149,7 @@ export async function fetchNewsDigest(newsConfig, seenStore, options = {}) {
   const now = options.now instanceof Date ? options.now : new Date();
   const maxPerTopicDefault = options.maxNewsPerTopic ?? 4;
   const defaultMaxAgeDays = newsConfig?.maxAgeDays ?? 7;
-  const globalExcludes = (newsConfig?.excludePatterns || []).map((p) => {
-    try {
-      return new RegExp(p, 'i');
-    } catch {
-      return null;
-    }
-  }).filter(Boolean);
+  const globalExcludes = compileExcludes(newsConfig?.excludePatterns);
 
   const pruned = pruneSeenUrls(seenStore, 30, now);
   const seenUrls = { ...pruned.urls };
@@ -163,7 +166,7 @@ export async function fetchNewsDigest(newsConfig, seenStore, options = {}) {
       maxAgeDays: t.maxAgeDays ?? defaultMaxAgeDays,
       excludePatterns: [
         ...globalExcludes,
-        ...(t.excludePatterns || []).map((p) => new RegExp(p, 'i')),
+        ...compileExcludes(t.excludePatterns),
       ],
       isDirectFeed: false,
     })),

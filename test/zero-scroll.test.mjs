@@ -54,6 +54,7 @@ test('parseBrainDump classifies tasks, events, notes, tags, dates and URLs', () 
   // Tuesday, Nov 24 2026 08:00 Asia/Manila (00:00 UTC)
   const now = new Date('2026-11-24T00:00:00.000Z');
 
+  assert.equal(parseBrainDump('submit 2026-02-31', { now }).dueAt, null);
   const task = parseBrainDump('submit IT3107 lab Friday 5pm #school', { now, timezone: 'Asia/Manila' });
   assert.equal(task.route, 'inbox');
   assert.equal(task.kind, 'task');
@@ -334,6 +335,19 @@ test('end-to-end briefing, reminders, inbox routing and HTTP server work cleanly
       const posted = await postRes.json();
       assert.equal(posted.route, 'inbox');
       assert.equal(posted.item.kind, 'task');
+      const endpoint = `http://127.0.0.1:${port}/api/inbox/${posted.item.id}`;
+      const editedRes = await fetch(endpoint, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ dueAt: '2026-12-31T08:00:00Z', done: true }),
+      });
+      const edited = (await editedRes.json()).item;
+      assert.equal(edited.done, true);
+      assert.equal((await fetch(endpoint, { method: 'DELETE' })).status, 200);
+      const undone = await fetch(`${endpoint}/restore`, { method: 'POST' });
+      assert.equal(undone.status, 200);
+      assert.deepEqual((await undone.json()).item, edited);
+      assert.equal((await fetch(`${endpoint}/restore`, { method: 'POST' })).status, 404);
     } finally {
       server.close();
     }

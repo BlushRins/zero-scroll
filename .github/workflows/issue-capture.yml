@@ -4,6 +4,10 @@ on:
   issues:
     types: [opened]
 
+concurrency:
+  group: state-writers-${{ github.ref }}
+  queue: max
+
 permissions:
   contents: write
   issues: write

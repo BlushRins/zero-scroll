@@ -210,7 +210,8 @@ export async function summarizeUrl(rawUrl, options = {}) {
         bullets = null;
       }
     }
-    if (!bullets) {
+    const summarizedBy = bullets?.length ? 'gemini' : 'extractive';
+    if (!bullets?.length) {
       bullets = extractiveBullets(description, title, 2);
       if (bullets.length === 0) {
         bullets = [`Video by ${author} saved to watch when you have time.`];
@@ -226,7 +227,7 @@ export async function summarizeUrl(rawUrl, options = {}) {
       kind: 'video',
       readingMinutes: null,
       bullets: bullets.slice(0, 3),
-      summarizedBy: geminiApiKey ? 'gemini' : 'extractive',
+      summarizedBy,
     };
   }
 
@@ -252,7 +253,8 @@ export async function summarizeUrl(rawUrl, options = {}) {
     }
   }
 
-  if (!bullets) {
+  const summarizedBy = bullets?.length ? 'gemini' : 'extractive';
+  if (!bullets?.length) {
     bullets = extractiveBullets(article.text || article.description, article.title, 3);
     if (bullets.length === 0 && article.description) {
       bullets = [article.description];
@@ -269,6 +271,6 @@ export async function summarizeUrl(rawUrl, options = {}) {
     kind: 'article',
     readingMinutes: article.readingMinutes,
     bullets: bullets.slice(0, 3),
-    summarizedBy: geminiApiKey && bullets ? 'gemini' : 'extractive',
+    summarizedBy,
   };
 }
