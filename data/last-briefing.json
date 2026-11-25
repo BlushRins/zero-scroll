@@ -1,47 +1,61 @@
 {
-  "generatedAt": "2026-11-24T09:08:12.703Z",
-  "dateLabel": "Tuesday, November 24, 2026",
+  "generatedAt": "2026-11-25T05:16:20.028Z",
+  "dateLabel": "Wednesday, November 25, 2026",
   "timezone": "Asia/Manila",
   "weather": {
     "city": "Manila",
     "unit": "°C",
-    "currentTemp": 32,
-    "feelsLike": 35,
-    "high": 35,
-    "low": 28,
-    "rainChance": 54,
-    "condition": "Drizzle",
-    "fetchedAt": "2026-11-24T09:08:12.756Z"
+    "currentTemp": 34,
+    "feelsLike": 37,
+    "high": 34,
+    "low": 26,
+    "rainChance": 98,
+    "condition": "Rain showers",
+    "fetchedAt": "2026-11-25T05:16:20.235Z"
   },
   "schedule": [],
-  "dueSoon": [],
+  "dueSoon": [
+    {
+      "id": "inb_53f7c7cf4abe",
+      "kind": "event",
+      "title": "Code review: design, logic, standards, and recommendations ## Scope - Reviewed `main@010cbeb` across `package.json`, `config.json`, `.env.example`, `README.md`, `.github/workflows/*.yml`, `src/*.mjs`, `web/*`, and `test/zero-scroll.test.mjs`. - Verified syntax via `node --check` on all 17 `.mjs`/`.js` files (passed). Note: `node --test` could not complete in an un-installed checkout because `src/delivery.mjs` imports `nodemailer` (`ERR_MODULE_NOT_FOUND` without `npm install`). ## Design, Logic & Standards Assessment - **Design & Architecture**: Very cohesive, practical architecture for a zero-hosting-cost personal productivity ledger. Clean separation of parsing (`src/parser.mjs`), atomic JSON persistence (`src/store.mjs`), news/feed aggregation (`src/news.mjs`), summarization (`src/summarizer.mjs`), notification rendering/delivery (`src/delivery.mjs`), local API/static server (`src/server.mjs`), and GitHub Actions automation (`.github/workflows/*.yml`). Supporting three modes in one browser UI (`local`, `github` Contents API sync, and offline `localStorage`) is well executed. - **Logic & Correctness**: Most core flows (ICS folding/TZID parsing, 24h/2h/overdue reminder stages, URL canonicalization/deduplication, atomic temp-file writes, Discord 6000-char embed budget trimming) are thoughtfully implemented. A few subtle bugs exist around `trustedSources` substring matching, `summarizedBy` reporting, dry-run side effects, `PUT /api/config` key stripping, and `web/app.js` Undo/parser parity. - **Standards & Hygiene**: Uses DOM node construction + `.textContent` consistently in `web/app.js` (avoiding `innerHTML` XSS), `AbortSignal.timeout` on external network requests, SHA-less standard GitHub actions (`checkout@v4`, `setup-node@v4`), and strong end-to-end test coverage with mocked `fetch` in `test/zero-scroll.test.mjs`. Main gaps are missing CI execution of `npm test` and potential workflow `git push` race conditions. **Strengths** - `src/store.mjs:20-26`: Atomic temp-file-then-rename JSON writes (`writeJson`) protect `data/*.json` from partial writes. - `src/delivery.mjs:286-315`: Enforces Discord's embed count and character budget (`charBudget = 5600`) cleanly so oversized news/read-later payloads don't fail webhook delivery. - `src/news.mjs:86-97` & `104-114`: Strips tracking query parameters (`utm_*`, `fbclid`, `gclid`, `oc`, `ref`) before deduplicating and prunes stale `seen.json` entries after 30 days. ## Bugs & Small Problems - **`src/news.mjs:116-124` — `trustedSources` check allows `t.includes(norm)` false positives**: - `matchesTrustedSource` checks `norm === t || norm.includes(t) || t.includes(norm)` (`src/news.mjs:122`). Because `t.includes(norm)` matches when a feed's publisher name is any substring of a trusted outlet name, generic or short publisher names like `\"News\"`, `\"Media\"`, `\"The\"`, or `\"Times\"` match `\"404 Media\"`, `\"BBC News\"`/`\"The Information\"`, or `\"Financial Times\"`, bypassing the allowlist. - Fix: Match exact normalized names (or strict word-boundary / domain suffix rules) instead of symmetric `t.includes(norm)`. - **`src/news.mjs:166` — Per-topic `excludePatterns` lacks `try/catch` around `new RegExp`**: - `globalExcludes` wraps `new RegExp(p, 'i')` in `try/catch` (`src/news.mjs:143-149`), whereas per-topic `t.excludePatterns` (`src/news.mjs:166`) calls `new RegExp(p, 'i')` directly. A malformed regex in `config.json` crashes the entire briefing run. - Fix: Extract a shared `compilePatterns(list)` helper with `try/catch` for both global and per-topic patterns. - **`src/summarizer.mjs:229,272` — `summarizedBy` misreports `'gemini'` when Gemini fails or is skipped**: - At `src/summarizer.mjs:272`, `summarizedBy: geminiApiKey && bullets ? 'gemini' : 'extractive'` checks `bullets` after lines `255-263` have already populated `bullets` with the extractive fallback! So whenever `GEMINI_API_KEY` is configured and `summarizeWithGemini` throws, returns `null`, or is skipped (`article.text.length <= 100`), the record still claims `summarizedBy: 'gemini'`. Same issue in the YouTube branch (`src/summarizer.mjs:229`). - Fix: Track `let usedGemini = false;` when `summarizeWithGemini` returns non-empty bullets. - **`src/server.mjs:157-170` — `PUT /api/config` silently drops `news.maxAgeDays` and `news.excludePatterns`**: - `PUT /api/config` replaces `news` with `{ topics, feeds }` (`src/server.mjs:163-166`), discarding `config.news.maxAgeDays` (`config.json:21`) and `config.news.excludePatterns` (`config.json:22-30`), as well as `briefing` / `reminders` if modified. - Fix: Spread `...config.news` (`news: { ...config.news, topics: ..., feeds: ... }`). - **`src/server.mjs:180-184` — Static file containment check lacks a path separator**: - `if (!resolved.startsWith(path.resolve(paths.webDir)))` (`src/server.mjs:182`) allows a sibling directory sharing the `web` prefix (e.g., `web-private/...`) to pass `startsWith`. - Fix: Check `const webRoot = path.resolve(paths.webDir);` and require `resolved === webRoot || resolved.startsWith(webRoot + path.sep)`. - **`src/briefing.mjs:102` & `.github/workflows/morning-briefing.yml:42-55` — Dry-run writes and commits `data/last-briefing.json`**: - `writeJson(paths.lastBriefing, briefing)` (`src/briefing.mjs:102`) executes even when `dryRun: true`, and `.github/workflows/morning-briefing.yml:48-55` commits `data/last-briefing.json` without checking whether `inputs.dry_run == 'true'`. - Fix: Guard `writeJson(paths.lastBriefing, briefing)` (or the CI commit step) when running `--dry-run` in CI. - **`src/readlater.mjs:32-37` & `web/app.js:527,564` — `saveReadLater(..., { skipFetch: true })` does not reject `javascript:`/`data:` URLs**: - `summarizeUrl` validates `/^https?:$/i.test(parsedUrl.protocol)` (`src/summarizer.mjs:169`), but when `skipFetch` is `true`, `saveReadLater` (`src/readlater.mjs:33-37`) only validates `new URL(rawUrl)` and accepts non-HTTP protocols, which `web/app.js:527,564` renders into `<a href=\"...\">` and `src/delivery.mjs:104,124` renders into HTML emails. - Fix: Enforce `https?` in `saveReadLater` (before checking `skipFetch`) and verify safe `http:`/`https:` schemes before setting `a.href` in `web/app.js`. - **`.github/workflows/morning-briefing.yml`, `reminders.yml`, `issue-capture.yml` — Concurrent `git push` race conditions**: - All three workflows commit and push to `main`, yet none configure a shared `concurrency` group or `git pull --rebase` before `git push`. Overlapping runs (e.g., hourly `reminders` + `morning-briefing` or `issue-capture`) can fail on non-fast-forward pushes. - Fix: Add a shared `concurrency` group (e.g. `group: data-branch-write`, `cancel-in-progress: false`) across workflows that push to `main`, or rebase-and-retry on push. - **`web/app.js:65-206` vs `src/parser.mjs` — Client parser diverges from backend parser**: - `parseClientCapture` (`web/app.js:65-206`) omits `YYYY-MM-DD` ISO dates (`src/parser.mjs:176-190`), explicit years on month-day strings (`src/parser.mjs:194`), `in N weeks` (`src/parser.mjs:140`), and `low` priority detection (`src/parser.mjs:288-290`). - **`web/app.js:857-885` & `914-942` — Undo UI and restoration fidelity**: - `scheduleUndo` runs before `fetch('/api/inbox/...')` / `persistGitHubList(...)` settles, leaving the Undo banner visible even if deletion fails; in `local` mode, Undo re-POSTs `/api/dump` (`web/app.js:861-865`), which re-parses the text and loses custom `dueAt` edits, completion timestamps, and `remindedStages`. - **`src/inbox.mjs:69-72` & `src/parser.mjs:176-190` — Date validation edge cases**: - `updateInboxItem` (`src/inbox.mjs:70`) calls `new Date(patch.dueAt).toISOString()` without validating `!Number.isNaN(...)`, throwing `RangeError` on invalid input; `extractDueDate` (`src/parser.mjs:176-187`) allows invalid calendar dates like ` ` to roll over into March via `Date.UTC`. ## Recommendations & Suggestions - **Add a CI test workflow (`.github/workflows/test.yml`)**: `test/zero-scroll.test.mjs` is solid and fast, but no workflow currently runs `npm test` on pushes or pull requests. - **Serve/bundle shared parser logic (`src/parser.mjs` -> `web/`)**: Serving `src/parser.mjs` (or sharing a pure-ESM `shared/parser.mjs` module copied during `deploy-pages.yml`) eliminates drift between `src/parser.mjs` and `web/app.js:parseClientCapture`. - **Reconcile remote JSON before `ghWriteJson` (`web/app.js:233-262`)**: In `github` mode, merge added/updated/deleted item IDs against the freshly fetched `existing.data.items` before `PUT` so background `morning-briefing` / `reminders` commits on `main` aren't overwritten by a stale phone tab. - **Cache `web/manifest.webmanifest` in `web/sw.js:2`**: Add `./manifest.webmanifest` to `ASSETS`, and document/bump `CACHE_NAME` when deploying `web/` updates. ## Prioritized Checklist - [ ] [High] Tighten `matchesTrustedSource` (`src/news.mjs:116-124`) to stop `t.includes(norm)` allowlist bypasses - [ ] [High] Add shared `concurrency` (or rebase-before-push) across `morning-briefing.yml`, `reminders.yml`, and `issue-capture.yml` - [ ] [High] Enforce `http:`/`https:` URL schemes in `src/readlater.mjs:32-37` and `web/app.js:527,564` - [ ] [Medium] Fix `PUT /api/config` (`src/server.mjs:163-166`) so `maxAgeDays`/`excludePatterns` aren't dropped, and fix `path.sep` check at `src/server.mjs:182` - [ ] [Medium] Fix `summarizedBy` fallback attribution (`src/summarizer.mjs:229,272`) and wrap topic `excludePatterns` regex compilation in `try/catch` (`src/news.mjs:166`) - [ ] [Medium] Add a GitHub Actions workflow running `npm test` on push/PR - [ ] [Low] Prevent `brief:dry` from committing `data/last-briefing.json` in `morning-briefing.yml`, validate `patch.dueAt` (`src/inbox.mjs:70`), and align `web/app.js` parser/undo behavior with `src/parser.mjs`",
+      "raw": "Code review: design, logic, standards, and recommendations ## Scope\n\n- Reviewed `main@010cbeb` across `package.json`, `config.json`, `.env.example`, `README.md`, `.github/workflows/*.yml`, `src/*.mjs`, `web/*`, and `test/zero-scroll.test.mjs`.\n- Verified syntax via `node --check` on all 17 `.mjs`/`.js` files (passed). Note: `node --test` could not complete in an un-installed checkout because `src/delivery.mjs` imports `nodemailer` (`ERR_MODULE_NOT_FOUND` without `npm install`).\n\n## Design, Logic & Standards Assessment\n\n- **Design & Architecture**: Very cohesive, practical architecture for a zero-hosting-cost personal productivity ledger. Clean separation of parsing (`src/parser.mjs`), atomic JSON persistence (`src/store.mjs`), news/feed aggregation (`src/news.mjs`), summarization (`src/summarizer.mjs`), notification rendering/delivery (`src/delivery.mjs`), local API/static server (`src/server.mjs`), and GitHub Actions automation (`.github/workflows/*.yml`). Supporting three modes in one browser UI (`local`, `github` Contents API sync, and offline `localStorage`) is well executed.\n- **Logic & Correctness**: Most core flows (ICS folding/TZID parsing, 24h/2h/overdue reminder stages, URL canonicalization/deduplication, atomic temp-file writes, Discord 6000-char embed budget trimming) are thoughtfully implemented. A few subtle bugs exist around `trustedSources` substring matching, `summarizedBy` reporting, dry-run side effects, `PUT /api/config` key stripping, and `web/app.js` Undo/parser parity.\n- **Standards & Hygiene**: Uses DOM node construction + `.textContent` consistently in `web/app.js` (avoiding `innerHTML` XSS), `AbortSignal.timeout` on external network requests, SHA-less standard GitHub actions (`checkout@v4`, `setup-node@v4`), and strong end-to-end test coverage with mocked `fetch` in `test/zero-scroll.test.mjs`. Main gaps are missing CI execution of `npm test` and potential workflow `git push` race conditions.\n\n**Strengths**\n- `src/store.mjs:20-26`: Atomic temp-file-then-rename JSON writes (`writeJson`) protect `data/*.json` from partial writes.\n- `src/delivery.mjs:286-315`: Enforces Discord's embed count and character budget (`charBudget = 5600`) cleanly so oversized news/read-later payloads don't fail webhook delivery.\n- `src/news.mjs:86-97` & `104-114`: Strips tracking query parameters (`utm_*`, `fbclid`, `gclid`, `oc`, `ref`) before deduplicating and prunes stale `seen.json` entries after 30 days.\n\n## Bugs & Small Problems\n\n- **`src/news.mjs:116-124` — `trustedSources` check allows `t.includes(norm)` false positives**:\n  - `matchesTrustedSource` checks `norm === t || norm.includes(t) || t.includes(norm)` (`src/news.mjs:122`). Because `t.includes(norm)` matches when a feed's publisher name is any substring of a trusted outlet name, generic or short publisher names like `\"News\"`, `\"Media\"`, `\"The\"`, or `\"Times\"` match `\"404 Media\"`, `\"BBC News\"`/`\"The Information\"`, or `\"Financial Times\"`, bypassing the allowlist.\n  - Fix: Match exact normalized names (or strict word-boundary / domain suffix rules) instead of symmetric `t.includes(norm)`.\n- **`src/news.mjs:166` — Per-topic `excludePatterns` lacks `try/catch` around `new RegExp`**:\n  - `globalExcludes` wraps `new RegExp(p, 'i')` in `try/catch` (`src/news.mjs:143-149`), whereas per-topic `t.excludePatterns` (`src/news.mjs:166`) calls `new RegExp(p, 'i')` directly. A malformed regex in `config.json` crashes the entire briefing run.\n  - Fix: Extract a shared `compilePatterns(list)` helper with `try/catch` for both global and per-topic patterns.\n- **`src/summarizer.mjs:229,272` — `summarizedBy` misreports `'gemini'` when Gemini fails or is skipped**:\n  - At `src/summarizer.mjs:272`, `summarizedBy: geminiApiKey && bullets ? 'gemini' : 'extractive'` checks `bullets` after lines `255-263` have already populated `bullets` with the extractive fallback! So whenever `GEMINI_API_KEY` is configured and `summarizeWithGemini` throws, returns `null`, or is skipped (`article.text.length <= 100`), the record still claims `summarizedBy: 'gemini'`. Same issue in the YouTube branch (`src/summarizer.mjs:229`).\n  - Fix: Track `let usedGemini = false;` when `summarizeWithGemini` returns non-empty bullets.\n- **`src/server.mjs:157-170` — `PUT /api/config` silently drops `news.maxAgeDays` and `news.excludePatterns`**:\n  - `PUT /api/config` replaces `news` with `{ topics, feeds }` (`src/server.mjs:163-166`), discarding `config.news.maxAgeDays` (`config.json:21`) and `config.news.excludePatterns` (`config.json:22-30`), as well as `briefing` / `reminders` if modified.\n  - Fix: Spread `...config.news` (`news: { ...config.news, topics: ..., feeds: ... }`).\n- **`src/server.mjs:180-184` — Static file containment check lacks a path separator**:\n  - `if (!resolved.startsWith(path.resolve(paths.webDir)))` (`src/server.mjs:182`) allows a sibling directory sharing the `web` prefix (e.g., `web-private/...`) to pass `startsWith`.\n  - Fix: Check `const webRoot = path.resolve(paths.webDir);` and require `resolved === webRoot || resolved.startsWith(webRoot + path.sep)`.\n- **`src/briefing.mjs:102` & `.github/workflows/morning-briefing.yml:42-55` — Dry-run writes and commits `data/last-briefing.json`**:\n  - `writeJson(paths.lastBriefing, briefing)` (`src/briefing.mjs:102`) executes even when `dryRun: true`, and `.github/workflows/morning-briefing.yml:48-55` commits `data/last-briefing.json` without checking whether `inputs.dry_run == 'true'`.\n  - Fix: Guard `writeJson(paths.lastBriefing, briefing)` (or the CI commit step) when running `--dry-run` in CI.\n- **`src/readlater.mjs:32-37` & `web/app.js:527,564` — `saveReadLater(..., { skipFetch: true })` does not reject `javascript:`/`data:` URLs**:\n  - `summarizeUrl` validates `/^https?:$/i.test(parsedUrl.protocol)` (`src/summarizer.mjs:169`), but when `skipFetch` is `true`, `saveReadLater` (`src/readlater.mjs:33-37`) only validates `new URL(rawUrl)` and accepts non-HTTP protocols, which `web/app.js:527,564` renders into `<a href=\"...\">` and `src/delivery.mjs:104,124` renders into HTML emails.\n  - Fix: Enforce `https?` in `saveReadLater` (before checking `skipFetch`) and verify safe `http:`/`https:` schemes before setting `a.href` in `web/app.js`.\n- **`.github/workflows/morning-briefing.yml`, `reminders.yml`, `issue-capture.yml` — Concurrent `git push` race conditions**:\n  - All three workflows commit and push to `main`, yet none configure a shared `concurrency` group or `git pull --rebase` before `git push`. Overlapping runs (e.g., hourly `reminders` + `morning-briefing` or `issue-capture`) can fail on non-fast-forward pushes.\n  - Fix: Add a shared `concurrency` group (e.g. `group: data-branch-write`, `cancel-in-progress: false`) across workflows that push to `main`, or rebase-and-retry on push.\n- **`web/app.js:65-206` vs `src/parser.mjs` — Client parser diverges from backend parser**:\n  - `parseClientCapture` (`web/app.js:65-206`) omits `YYYY-MM-DD` ISO dates (`src/parser.mjs:176-190`), explicit years on month-day strings (`src/parser.mjs:194`), `in N weeks` (`src/parser.mjs:140`), and `low` priority detection (`src/parser.mjs:288-290`).\n- **`web/app.js:857-885` & `914-942` — Undo UI and restoration fidelity**:\n  - `scheduleUndo` runs before `fetch('/api/inbox/...')` / `persistGitHubList(...)` settles, leaving the Undo banner visible even if deletion fails; in `local` mode, Undo re-POSTs `/api/dump` (`web/app.js:861-865`), which re-parses the text and loses custom `dueAt` edits, completion timestamps, and `remindedStages`.\n- **`src/inbox.mjs:69-72` & `src/parser.mjs:176-190` — Date validation edge cases**:\n  - `updateInboxItem` (`src/inbox.mjs:70`) calls `new Date(patch.dueAt).toISOString()` without validating `!Number.isNaN(...)`, throwing `RangeError` on invalid input; `extractDueDate` (`src/parser.mjs:176-187`) allows invalid calendar dates like `2026-02-31` to roll over into March via `Date.UTC`.\n\n## Recommendations & Suggestions\n\n- **Add a CI test workflow (`.github/workflows/test.yml`)**: `test/zero-scroll.test.mjs` is solid and fast, but no workflow currently runs `npm test` on pushes or pull requests.\n- **Serve/bundle shared parser logic (`src/parser.mjs` -> `web/`)**: Serving `src/parser.mjs` (or sharing a pure-ESM `shared/parser.mjs` module copied during `deploy-pages.yml`) eliminates drift between `src/parser.mjs` and `web/app.js:parseClientCapture`.\n- **Reconcile remote JSON before `ghWriteJson` (`web/app.js:233-262`)**: In `github` mode, merge added/updated/deleted item IDs against the freshly fetched `existing.data.items` before `PUT` so background `morning-briefing` / `reminders` commits on `main` aren't overwritten by a stale phone tab.\n- **Cache `web/manifest.webmanifest` in `web/sw.js:2`**: Add `./manifest.webmanifest` to `ASSETS`, and document/bump `CACHE_NAME` when deploying `web/` updates.\n\n## Prioritized Checklist\n\n- [ ] [High] Tighten `matchesTrustedSource` (`src/news.mjs:116-124`) to stop `t.includes(norm)` allowlist bypasses\n- [ ] [High] Add shared `concurrency` (or rebase-before-push) across `morning-briefing.yml`, `reminders.yml`, and `issue-capture.yml`\n- [ ] [High] Enforce `http:`/`https:` URL schemes in `src/readlater.mjs:32-37` and `web/app.js:527,564`\n- [ ] [Medium] Fix `PUT /api/config` (`src/server.mjs:163-166`) so `maxAgeDays`/`excludePatterns` aren't dropped, and fix `path.sep` check at `src/server.mjs:182`\n- [ ] [Medium] Fix `summarizedBy` fallback attribution (`src/summarizer.mjs:229,272`) and wrap topic `excludePatterns` regex compilation in `try/catch` (`src/news.mjs:166`)\n- [ ] [Medium] Add a GitHub Actions workflow running `npm test` on push/PR\n- [ ] [Low] Prevent `brief:dry` from committing `data/last-briefing.json` in `morning-briefing.yml`, validate `patch.dueAt` (`src/inbox.mjs:70`), and align `web/app.js` parser/undo behavior with `src/parser.mjs`",
+      "dueAt": "2026-03-03T01:00:00.000Z",
+      "tags": [],
+      "priority": "high",
+      "done": false,
+      "remindedStages": [],
+      "createdAt": "2026-11-24T13:53:48.568Z",
+      "completedAt": null
+    }
+  ],
   "news": [
     {
       "topic": "Famous AI News & Updates",
       "items": [
         {
-          "title": "Virginia, Oregon sue Musk's SpaceX over Grok AI's creation of child sexual abuse images",
-          "url": "https://news.google.com/rss/articles/CBMixgFBVV95cUxObnVxU21QWWFOSHYzcW1sajgxS25DUndFTGd6dTh6UzdyaFR5U0QtMWlROWIxZ01IcU0wNG5FLXRaMWZoS1o0dHhEUUFiaDItWFVIbE01S1pTbDZxYVZGN1hMaHlNYXBZck84N3JPaW1xcW5VMHdNeFBHSWZmRVN6MzlHZjdEcl8wTkVERGhBU3M0dVBXSHBFUHNpM1pCc1Q0MV9HTWlveVJSV1hiSEFaWjJDMEI0b2p2bzBIZEdrampIVFlVWEE?oc=5",
+          "title": "Huang's return to Nvidia brings open-weight AI debate to forefront in Washington",
+          "url": "https://news.google.com/rss/articles/CBMiugFBVV95cUxQcE80eU84aDZfY24tLUhfMURrVFZHdkt3UHZuNjcxOXA3MUdWU0ZXUV9Od0d2QUJUWVFtZEN4X19BekxhdUFzcUNlVFYtZVdiMHgtTEFPQWtxU2xIS2NwUW1HVzJkUjNRS2tiMkJEa1ltcG42enk0czYyQXNjN0xibUd1SFNGU3pzd1diLWxDcFlmUVVqUmRoNVJ5VzVDNUVmMDJNRmxTY2dJSjJ3MGk4UUNhTk9DaGNLQ1E?oc=5",
           "source": "Reuters",
-          "publishedAt": "2026-11-23T20:28:29.000Z"
+          "publishedAt": "2026-11-24T23:59:28.000Z"
         },
         {
-          "title": "OpenAI scientist proposes industry AI limits tied to model intelligence metric",
-          "url": "https://news.google.com/rss/articles/CBMivAFBVV95cUxPa0ZQb0xtalJ5djRmZmkwQnhmdDBlMEtncDUtUEJsUFBtWmptbkdVQ3c5QjY2TzhKN0NFT2ZzYnZmenQxY1lrUWFFYjJsdS1KazdRUkJINEJRemQ1alh6TGtnNW1nRE92bTF3RW9FMTIyODB3UmpBaW5oSzFDWDFVT3FXdjZDVzQ0TVNVd29nQzZvY3ByWVpBLUlhRVg0bFZiRHUxVjhqclptLUMycDJlYVBsQXQ4a28tRnFnbQ?oc=5",
-          "source": "Reuters",
-          "publishedAt": "2026-11-22T23:09:00.000Z"
-        },
-        {
-          "title": "A legendary philosopher isn’t buying Anthropic’s consciousness argument",
-          "url": "https://news.google.com/rss/articles/CBMivwFBVV95cUxPOVJjY0Z0eXltTjlvZFE1YkNJNGFPYUhjY3k3QUExczJNbkc0dGZzeHVndVZwQ1VzRmYyY2hjX0pqdWtfTTEyS0ZqVVYzajlMSVViZGppWFlqRThpbW5BNGdsemJOQk9kcVc5VmFEcnFsandWUy1hM2JkNWIwOTN2RzBRbWVwNWN5MTZCaEdsQVB4OEpUSDNiZDIzaHlQdnd0Yzg5blhhUHFHcnBaQmViaEhjQ2JxdnkwWnNSdVNOONIBxAFBVV95cUxNa1ZNcWxfTVFmYnpIWGh0Q21UaE9KbnBydERsMDZINEJuTHktSldwdXFmaXhJXzNoUnRQWkxsNHk4WHlacWdyMU9NMHM0M2tOQ1VZbDJ3NGlrRTI2ekFrajgyclVFeUlzZ3NqREV3clM4R2UycDlleW1uMmtMSmdaUVlOdjl2S1VvSGM0ZmEzaGRNZjlXTzVCN1RqblhwbndacGJMdVU1NFZLUzM3M01oM2RZY0pzZXZFOHBFME5FQ25tSlNx?oc=5",
-          "source": "MIT Technology Review",
-          "publishedAt": "2026-11-23T17:36:08.000Z"
-        },
-        {
-          "title": "Elon Musk Faces an A.I. Dilemma at SpaceX",
-          "url": "https://news.google.com/rss/articles/CBMihAFBVV95cUxOMGl5dzhJZEtScFQxVzh3VVUzM1RpcXhMd1lFd1A4WkpVbGNhNmxQMEt1cDJZbG1mX20yLTk4Rnd4UW9UX244YThfOGptdThRNjhxcklRdnNwOExyellLU3ZKYzdtbXQyN1BSajNqcEFpTjFBalhRV2ZpaF8xejYxcFp3bWQ?oc=5",
+          "title": "OpenAI Engineer Secretly Recorded Dozens of Meetings, Prosecutors Say",
+          "url": "https://news.google.com/rss/articles/CBMijAFBVV95cUxPZGUweWw4Y2NIQUtVYmdIUHFaQkt6Y3cxZnBHVFBueFpuMjJxaDZCZEZLQS02TnZZX3pzcEUxLWM2N0tQQ0ZSQ1VxTlJ2RWoyLTdvWnJzaTFIa0xTektOMVQzWkdXZ1BGYzJGcGR5MGR5U1NjaUc1b1ZxNmZMUEpVRUdGbWdTTk9sbVNtZg?oc=5",
           "source": "The New York Times",
-          "publishedAt": "2026-11-23T16:13:32.000Z"
+          "publishedAt": "2026-11-24T21:09:00.000Z"
+        },
+        {
+          "title": "XAI Founders Unveil New AI Startup to Predict Future Events",
+          "url": "https://news.google.com/rss/articles/CBMirwFBVV95cUxNTGtZa3k3Qzc3dzRHeFJVbFRMU2xUTVUxS3BST3kyaWp1ZFVHSGttMGZWcW5HTVFzdktESm1MeTBacTg2MVJnVWlNdjBENTBhSllva0pVdmhscjlOUDEtT1RFalZIREMzMXB1WHc3V1JPejFFOE1YNE8yX1NZOS1UbEp4S1ZtOFZvOFpBcHFwWmhoZTQwWl82QV9CYVhtV09pTk9rd1d4amNQVlgzdGJj?oc=5",
+          "source": "Bloomberg.com",
+          "publishedAt": "2026-11-24T16:50:00.000Z"
+        },
+        {
+          "title": "Anthropic tops 700 million monthly MCP SDK downloads and expands the protocol for more autonomous AI agents",
+          "url": "https://news.google.com/rss/articles/CBMizAFBVV95cUxOS3ViM0lOMXZ2N1hHbTNrTUMtOTY1NXJVUmxVWXpfdUJCRmVVVzV5RU16a3dmRURqUHVqSkpuQlVQaE5kNFItMWdXQWZvQkhMbmNkRDh1M0JjekJTOXlTbDVDUDB5YzFfbXd6Q1FPZFZJclQ5R0xmdksxSzdMS1hfS1lNRUFDaEEyMC02VVg5SUFoc3VkU3Z1Q1N4SzRfMXg1eWpnaTZCeWFBUXpuaGlxaXhSUFVRa05MdVNIbUxGaEhQX2I1YmNmNDFDQUk?oc=5",
+          "source": "The Decoder",
+          "publishedAt": "2026-11-24T19:23:41.000Z"
         }
       ]
     },
@@ -49,22 +63,22 @@
       "topic": "AI Dev Tools & Releases",
       "items": [
         {
-          "title": "SpaceX’s subsidiary Cursor tells lawmakers it's considering phasing out Chinese AI models",
-          "url": "https://news.google.com/rss/articles/CBMihgFBVV95cUxQUDVoNmlWZGIxdGFNWnNNSXYyZmZ6RUt2V00wZkktQmUxdThobUx3VUxrUDhYUnJPaEtvX1dfTTJLRnB1R3Jua3E2SVZXN2s3Wnl5OWdId3JuTmJ1NlRfaW14c0pvVUo5VWx6UmpUWmhSM3pkWGdsM3Bsc0xNTGJNV0JkT1lZUdIBiwFBVV95cUxNVFNfT0hzd0lkQjZTUjlfMVY0VVZybzBfcWtTdEVnVm9GNWZkbEt4dmJvZHhzZ0dIdXRUa1pRY1pOTUpXRUdGekRWa2Y0NmgtQ0hUbkFMeTJtM2dVbUs3MTVBcUlmaFJZR0JaSVIydTBIN0NDVmhPSXp0YUd2cmh5RlB2cTlDTENqNUtV?oc=5",
-          "source": "CNBC",
-          "publishedAt": "2026-11-20T14:04:17.000Z"
+          "title": "An AI coding agent, a browser, and a Mac tool found a financial firm's access key in under 6 minutes",
+          "url": "https://news.google.com/rss/articles/CBMi6AFBVV95cUxPZ056cGVuc0RuVXk3eGdHa1JtbFVtS3hTdkpNb056LTZyS1IydThuN1RUVlZGMDA0UnNHMjhUTnNoNWc3YUtOYVBMemI1YWxZbnlsSFhESXFLQmFKeEJUM0RHYmNNeHZ6MGVnVVRvM0V3MmRmRDR6LTZTR181elhFS1ZQZmNPR3N6OFA0b2Qxdy1Dejh5OXg5aE1GbTFaLWpiX0ZRYUhvSXllZjFSRVdsQV9ISjktMnJBenpyR0hRR3lBVmJ3Tk9yWUVfeHMxNDRuLVlIVWVMb0UxTDdkSUxlSGNWRlJzMWx6?oc=5",
+          "source": "The Register",
+          "publishedAt": "2026-11-24T17:00:00.000Z"
         },
         {
-          "title": "Claude Code Adds Experimental Code Mode to Orchestrate Tool Calls with JavaScript",
-          "url": "https://news.google.com/rss/articles/CBMiYkFVX3lxTFBudTB1WS1BN2pQdGpaSEREV1ZDZjBkamFBY29rY1d0WjZoTnBwd0ZjN2dnQ1ZRM2tkdVZhNm1CQzhUMGxaYkZ0MG1NMXRxaVdpUWgxZ0FHVU42VE1QREZ3V0pn?oc=5",
-          "source": "infoq.com",
-          "publishedAt": "2026-11-23T12:20:42.000Z"
+          "title": "Freebuff AI Coding Review: Free Tier Limits, Ads and Privacy | AgentsPulse",
+          "url": "https://news.google.com/rss/articles/CBMidEFVX3lxTE1LcXNSMlpWSkxRVWRsdmhhZm14UHBhRW9xLWoyVkh1Mi1HNEVJTldIWmRGbWFBdE9Vajl0S2FfMEJiT2F0OVBVUzFDZFMwVmt5ZUx0cVlxZHdqOVp0aTUyMGZ5Q0RKMW5uUlptOUxlUHk3N3Fj?oc=5",
+          "source": "GitHub",
+          "publishedAt": "2026-11-23T16:00:00.000Z"
         },
         {
-          "title": "Gemini 4 Neon in GitHub Copilot",
-          "url": "https://news.google.com/rss/articles/CBMifkFVX3lxTFBMS1FJZ2psbEdtam53b1NNNV90Y1NvZUNOcDVnYkxvUkxSY0JKOXpWVFktdUNMMTA4eUVMT3phdVRDRzJtcHM5N0JxMEZVYjZfdTNERE9uaXNGdm0wTkRNYm96b2pEZFd6NzRTSGdabVlVbGE3V211UzI3YnFqQQ?oc=5",
-          "source": "The GitHub Blog",
-          "publishedAt": "2026-11-18T21:49:21.000Z"
+          "title": "Inkling 2 Mini Ollama Setup: Mac Requirements and PC Options",
+          "url": "https://news.google.com/rss/articles/CBMib0FVX3lxTE5wVy14UUw1RVVadHFrVVhSNHY2Tm1CcHFwU3lFam0zYVM4Z3hJNnRZZ3ZIbFhzZTF5YVBsR0RoLXRMOTBlUTctcF9aTktFeXNCQ21EdWx0UWJUd0ZzQmxKWjhzNWhITW1qRVNzT0o1dw?oc=5",
+          "source": "GitHub",
+          "publishedAt": "2026-11-21T16:00:00.000Z"
         }
       ]
     },
@@ -72,68 +86,49 @@
       "topic": "Verified AI Leaks & Early Reports",
       "items": [
         {
-          "title": "EXCLUSIVE: Nvidia's accounting is a focus of US SEC investigation, sources say",
-          "url": "https://news.google.com/rss/articles/CBMitgFBVV95cUxPMzlPdFVTT2cyVkhmMFVKNWZ1MnpNT0NLcURnblg4THMwUWNuYTRBLWUxU0ZSSUR5bk1zNnBmVlhIUjByNkN6TzVBNC1uaXQxM0dwY2FkMzZQdm00a0xyMXo3NFNpSUNPdERZWU82aGZLa0lNZHpMOXVnVDBVQW9lMmNrWEVRczVYS1Racm1NNlNERDBJeTFJRG1pZVRfTC1LTy1pNjhpVzRaeGRrY25kSzQ1aDNUUQ?oc=5",
+          "title": "EXCLUSIVE: Some US banks tighten AI-agent controls on concern about models escaping safeguards",
+          "url": "https://news.google.com/rss/articles/CBMizgFBVV95cUxPb0pELTVieEVteWV5TWE5cU80T1M4MmNHVmxQVjNmb0tkQ3diUHRFSTg0X1NJTnhEMGZHcS1CaFZfRHUyeWUyQ0RSMWVOa2drMEY0VG1Ba3puU0FmamtxdzF3dFFLaXl0TGloeVIteHFxMkNiRlFLMU5Yc0FUeDNvVzJZS0lLS2t1TWo5Tmk1RWJjMGlHQ2Q2eXlwc1NRU0lXNEFxODVLZ1FmQm4xLUR0QWFoRTRTS1FqSE5FRGVfUzNPaFZGUlNJREtSb0ZjUQ?oc=5",
           "source": "Reuters",
-          "publishedAt": "2026-11-21T03:08:01.000Z"
+          "publishedAt": "2026-11-23T22:45:12.000Z"
         },
         {
-          "title": "EXCLUSIVE: Like SpaceX, Anthropic ran an unusual IPO process, chafing some bankers",
-          "url": "https://news.google.com/rss/articles/CBMisAFBVV95cUxNT1RsTFBlMWZGejNqWjVvdVlYX2lRTGpZZXhoYXFXN2RuV3lHZ09ra0ctdnZqc3hiVENXSlc2ZTBIbDRyTmpTS1Nhdk1kdU5HLW5FNGdNRTNoeXVBeEc5cDl5VGx3c3dUSzNDYkVVTHVfenVQbHFUQ0hQS2NfalhuNDczWFdUS0FWQS1iZ1ZhVnNYMy1FOHVSUmlBMmI3NTdVTGY1X0JxTFRmYnptV3huQQ?oc=5",
+          "title": "As Meta bets big on Muse AI agent, early safety mishaps surface",
+          "url": "https://news.google.com/rss/articles/CBMiqwFBVV95cUxNYzFCWVhTaXRGa0xoLTRJUUVKTjNaYXZzU2FhbHYxR2tyallCbFJsUFM1U21lbXN0UVN2U3FfZnlsWWdGWERVTWRBdmhHVmZaS0Z3X0REWFhvaXhQYXpoNHRlTG0wbHp0WHd5b3N3dnpOYnJONWE4bWVXdEJObHFqZTFYd2szQ3p1SU5LV1JxODNpSVpoWnZTdXVWRDJTSUl0MTRvQnotcjJrUUE?oc=5",
           "source": "Reuters",
-          "publishedAt": "2026-11-22T11:03:00.000Z"
+          "publishedAt": "2026-11-20T11:02:50.000Z"
         },
         {
-          "title": "EXCLUSIVE: Signal restricts screenshots to block AI agents from reading messages",
-          "url": "https://news.google.com/rss/articles/CBMitAFBVV95cUxQcmswbGtWU0V5UThMT3Rqd3lGVmJqeHE4NEE0S1h5eEpMTUZfRzU4NUxLbjZLU195X29ld20wa2xNVWIxZlREZ1U1OFZIY3VicFA2eEMwQmFTbWJTVk9CaHJFMktMNUU2a3Z6TlBhWmEwVE1TTzVfRkFRY2VLdGZ2cVIxR1NuWUVXaFFxRlZaQnNaM29JZnpuUV9hVEZNY3F1ZEZwaGx4QmlJa2t4MTBZQlJDZ3g?oc=5",
+          "title": "Anthropic shares tumble below $83 IPO price, on track to lose nearly $200 billion in value",
+          "url": "https://news.google.com/rss/articles/CBMiowFBVV95cUxNMHBNOVY5RDc1NmxUUjNnZkNhLWROQkhUOFZpVmQ0SEI0UG9aSUpTTjhpV3EydTNkdW8xYm1KOWF6OXg2Z3BMaUJCWTE3WnFCM0hCZGNuQ3ZKUklsYUROVWQzdExOamNKVlJLRTgwYWpoYVdOUjlDY0pxTmxZajlvckJ4cHc0TG1hbW1ZUkszaDZ2M2Rvd3RqTWRFaVRENXVWT0pr?oc=5",
           "source": "Reuters",
-          "publishedAt": "2026-11-20T21:33:22.000Z"
+          "publishedAt": "2026-11-24T20:47:56.000Z"
         }
       ]
     },
     {
       "topic": "AI Deals, Funding & Pricing",
-      "items": [
-        {
-          "title": "Trump sealed deal for Nvidia to rehire Jensen Huang as CEO",
-          "url": "https://news.google.com/rss/articles/CBMib0FVX3lxTE9ab2habU9pTTllNmRCRDdqTjgwQ3hsVFZDX1hhVkJxaVVCWHNhYjRHLXFMaWtnME41NGZ1Z1REMkh1d2Y0NUJGamJSdVJQcV9rZEV1aW9nUlhHQWN1WkFSU3RRMnZrNEpobEp5bVBoY9IBdEFVX3lxTFBXNkNGSW1MaGlybGVOX0YtaVI0YVFfd3NYMi1BenZKN2Ewd1JJT3NMMjdpaElsRF9jSThyVzBHYlg4dUxocjBjYnV1dml4czdrWHR4akNId1g3SVJYa0oyRkdEUHJPMnRUVFpkbUpxWHRtWUxE?oc=5",
-          "source": "CNBC",
-          "publishedAt": "2026-11-23T15:08:28.000Z"
-        },
-        {
-          "title": "Anthropic’s record IPO collides with tech’s worst week on Wall Street since 2020",
-          "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTFBuZ3QwZ1Qzd0FwWVhzOWhhbWZ5YWEzNTI0anpyemhZQXF6LVM1d202X3VSVGthTFNUaE13UlNfWUx5VkNhTEduOHctbWZtVlloME45dGFBMDA3OGpWdDhXdTUxNFVhSFpya21aMnpGVHHSAXZBVV95cUxORlNoeVVtbW1fLU1EY01EellhNHg0VldaY0Y5R3Y5enVEaTdZZTZENDJMWFNrblBqTEtORGZFRlZacjBwOWQ2ZXNjSF9KZFNsNkQ4WEtTallYdnVHMm5JRVBMYWl5bHhlb19QUzlIcUZOTXh2U1hB?oc=5",
-          "source": "CNBC",
-          "publishedAt": "2026-11-21T13:00:01.000Z"
-        },
-        {
-          "title": "Anthropic IPO will create thousands of multimillionaire employees",
-          "url": "https://news.google.com/rss/articles/CBMipgFBVV95cUxNc2lPZDEwREFZVFFuTGdUQTVST3dfVzBMV284THIwQjQwbFVPVVU5cWY2bWttcnZwNU1fSVkzX20tM2lvWENNOFJsS2E5emQzem1OQXVCUTd2am01Uld6ZHpONkxYV0tpbkxDMXNkWVhoTXF1V0NOS1BRVkVXV2JZOGM5YjVGOEwzZlIwNHp2cThQc20yWEF6VzNvWTNfVXlLemxHQktn0gGrAUFVX3lxTFBpM2NWMk9LRVNJRUt1T1BQRmtscllDR3ltT2MtTUdzLW82dG1Zei1sRERxMFpNR1pVODNsbkpyVFZvM2JWcXRrREhySmVBMlNDMzl3VXVfdDhveUtsVEdhLU9EV09jQ1ZNb25yaG9nLU5QSjB5dFItTTUwWHpfY3VwV0VCQmZVTW4yQWRtaE1rUGJlWmF4cVczQWdpZkJEb2NZc1Fnd2FWMldaUQ?oc=5",
-          "source": "CNBC",
-          "publishedAt": "2026-11-19T12:30:01.000Z"
-        }
-      ]
+      "items": []
     },
     {
       "topic": "OpenAI Official",
       "items": [
         {
-          "title": "Perplexity and Intelligence",
-          "url": "https://openai.com/index/perplexity-and-intelligence",
+          "title": "GPT-6 models demonstrate intrinsic protein-design capabilities",
+          "url": "https://openai.com/index/gpt-6-models-demonstrate-intrinsic-protein-design-capabilities",
           "source": "OpenAI Official",
-          "publishedAt": "2026-11-22T00:00:00.000Z"
+          "publishedAt": "2026-11-24T13:00:00.000Z"
         },
         {
-          "title": "Combatting adversarial distillation",
-          "url": "https://openai.com/index/combatting-adversarial-distillation",
+          "title": "Searching for distant planets with Astra",
+          "url": "https://openai.com/index/searching-for-distant-planets-with-astra",
           "source": "OpenAI Official",
-          "publishedAt": "2026-11-20T10:00:00.000Z"
+          "publishedAt": "2026-11-24T11:00:00.000Z"
         },
         {
-          "title": "Hebbia sees improvements in financial research with GPT-6 Astra",
-          "url": "https://openai.com/business/customer-stories/hebbia",
+          "title": "How Intentful uses dots to make more time for growth",
+          "url": "https://openai.com/business/customer-stories/intentful-dots",
           "source": "OpenAI Official",
-          "publishedAt": "2026-11-20T00:00:00.000Z"
+          "publishedAt": "2026-11-24T00:00:00.000Z"
         }
       ]
     },
@@ -141,16 +136,16 @@
       "topic": "Google DeepMind Official",
       "items": [
         {
-          "title": "Finding faster quantum algorithms with agents and formal verification",
-          "url": "https://deepmind.google/blog/finding-faster-quantum-algorithms-with-agents-and-formal-verification/",
+          "title": "Genie 4 is now available",
+          "url": "https://deepmind.google/blog/genie-4-is-now-available/",
           "source": "Google DeepMind Official",
-          "publishedAt": "2026-11-23T16:59:40.000Z"
+          "publishedAt": "2026-11-18T18:13:42.000Z"
         },
         {
-          "title": "Introducing Gemini 4 Neon",
-          "url": "https://deepmind.google/blog/introducing-gemini-4-neon/",
+          "title": "Introducing Gemini 4 Hydrogen",
+          "url": "https://deepmind.google/blog/introducing-gemini-4-hydrogen/",
           "source": "Google DeepMind Official",
-          "publishedAt": "2026-11-18T21:35:43.000Z"
+          "publishedAt": "2026-11-12T18:00:50.000Z"
         }
       ]
     },
@@ -158,16 +153,16 @@
       "topic": "Hugging Face & Open Weights",
       "items": [
         {
-          "title": "RoboTrack: Point tracking for real-world robotic manipulation",
-          "url": "https://huggingface.co/blog/allenai/robotrack",
+          "title": "Microduck Obstacle Avoidance: A Sim2Real Workflow with Isaac Lab and Newton",
+          "url": "https://huggingface.co/blog/nvidia/microduck-obstacle-avoidance",
           "source": "Hugging Face & Open Weights",
-          "publishedAt": "2026-11-23T17:20:37.000Z"
+          "publishedAt": "2026-11-24T16:34:13.000Z"
         },
         {
-          "title": "How to build and maintain an agentic evaluation",
-          "url": "https://huggingface.co/blog/agentic-evals",
+          "title": "Welcome Inkling 2 Mini, Cutting-edge Performance for your Local Setup",
+          "url": "https://huggingface.co/blog/inkling2mini",
           "source": "Hugging Face & Open Weights",
-          "publishedAt": "2026-11-23T00:00:00.000Z"
+          "publishedAt": "2026-11-20T00:00:00.000Z"
         }
       ]
     }
