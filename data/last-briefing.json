@@ -1,17 +1,17 @@
 {
-  "generatedAt": "2026-11-25T05:16:20.028Z",
-  "dateLabel": "Wednesday, November 25, 2026",
+  "generatedAt": "2026-11-26T04:43:28.227Z",
+  "dateLabel": "Thursday, November 26, 2026",
   "timezone": "Asia/Manila",
   "weather": {
     "city": "Manila",
     "unit": "°C",
-    "currentTemp": 34,
-    "feelsLike": 37,
+    "currentTemp": 33,
+    "feelsLike": 36,
     "high": 34,
-    "low": 26,
-    "rainChance": 98,
-    "condition": "Rain showers",
-    "fetchedAt": "2026-11-25T05:16:20.235Z"
+    "low": 27,
+    "rainChance": 86,
+    "condition": "Light drizzle",
+    "fetchedAt": "2026-11-26T04:43:28.470Z"
   },
   "schedule": [],
   "dueSoon": [
@@ -34,28 +34,16 @@
       "topic": "Famous AI News & Updates",
       "items": [
         {
-          "title": "Huang's return to Nvidia brings open-weight AI debate to forefront in Washington",
-          "url": "https://news.google.com/rss/articles/CBMiugFBVV95cUxQcE80eU84aDZfY24tLUhfMURrVFZHdkt3UHZuNjcxOXA3MUdWU0ZXUV9Od0d2QUJUWVFtZEN4X19BekxhdUFzcUNlVFYtZVdiMHgtTEFPQWtxU2xIS2NwUW1HVzJkUjNRS2tiMkJEa1ltcG42enk0czYyQXNjN0xibUd1SFNGU3pzd1diLWxDcFlmUVVqUmRoNVJ5VzVDNUVmMDJNRmxTY2dJSjJ3MGk4UUNhTk9DaGNLQ1E?oc=5",
+          "title": "How Nvidia’s billion-dollar turnaround in China is threatened by Huang’s exit",
+          "url": "https://news.google.com/rss/articles/CBMivAFBVV95cUxPMzBhLWJfeFVoaXlNajJPVmVaNHl3bFFPR3lveEhDV3dlNXU3MTNlcm1MNVp0OGM5MmtvcmVxVHg2SXBCZ0U1WkdBX0NGYmNZR1NrUXI2MVZFdXQtQnlhUXN6bm9SRGJOSnYxb1QzRklGZWd1bm9tdnlSNnVGLUpLWllkZFB2MVF0UXd3T3NDbWRUQUtmVzZkUml4cXJjdmhXVXFkYWdLZ3o4TGI0T2tIZG5KMHZlSWpSczNIVg?oc=5",
           "source": "Reuters",
-          "publishedAt": "2026-11-24T23:59:28.000Z"
+          "publishedAt": "2026-11-23T11:50:53.000Z"
         },
         {
-          "title": "OpenAI Engineer Secretly Recorded Dozens of Meetings, Prosecutors Say",
-          "url": "https://news.google.com/rss/articles/CBMijAFBVV95cUxPZGUweWw4Y2NIQUtVYmdIUHFaQkt6Y3cxZnBHVFBueFpuMjJxaDZCZEZLQS02TnZZX3pzcEUxLWM2N0tQQ0ZSQ1VxTlJ2RWoyLTdvWnJzaTFIa0xTektOMVQzWkdXZ1BGYzJGcGR5MGR5U1NjaUc1b1ZxNmZMUEpVRUdGbWdTTk9sbVNtZg?oc=5",
+          "title": "Oregon and Virginia Sue SpaceX Over A.I.-Generated Sexualized Images",
+          "url": "https://news.google.com/rss/articles/CBMijwFBVV95cUxNYmEzNUJMQjNfazhneTBxQ1dpNmJVOXBHRFRXWWhKelFVaDlNTjFMMDNycGpOTkJuX0lRNEZnSDVycThMZ185Tl9peUFRdWZST29tRTJtQ0ZkaV9NSjJxblNFbnloRnJ0cVpRcDBUVi1NcW9vc0NqdWdxbnZoSjBkLUI0ZDFzYzBpQnQ2eFZ2OA?oc=5",
           "source": "The New York Times",
-          "publishedAt": "2026-11-24T21:09:00.000Z"
-        },
-        {
-          "title": "XAI Founders Unveil New AI Startup to Predict Future Events",
-          "url": "https://news.google.com/rss/articles/CBMirwFBVV95cUxNTGtZa3k3Qzc3dzRHeFJVbFRMU2xUTVUxS3BST3kyaWp1ZFVHSGttMGZWcW5HTVFzdktESm1MeTBacTg2MVJnVWlNdjBENTBhSllva0pVdmhscjlOUDEtT1RFalZIREMzMXB1WHc3V1JPejFFOE1YNE8yX1NZOS1UbEp4S1ZtOFZvOFpBcHFwWmhoZTQwWl82QV9CYVhtV09pTk9rd1d4amNQVlgzdGJj?oc=5",
-          "source": "Bloomberg.com",
-          "publishedAt": "2026-11-24T16:50:00.000Z"
-        },
-        {
-          "title": "Anthropic tops 700 million monthly MCP SDK downloads and expands the protocol for more autonomous AI agents",
-          "url": "https://news.google.com/rss/articles/CBMizAFBVV95cUxOS3ViM0lOMXZ2N1hHbTNrTUMtOTY1NXJVUmxVWXpfdUJCRmVVVzV5RU16a3dmRURqUHVqSkpuQlVQaE5kNFItMWdXQWZvQkhMbmNkRDh1M0JjekJTOXlTbDVDUDB5YzFfbXd6Q1FPZFZJclQ5R0xmdksxSzdMS1hfS1lNRUFDaEEyMC02VVg5SUFoc3VkU3Z1Q1N4SzRfMXg1eWpnaTZCeWFBUXpuaGlxaXhSUFVRa05MdVNIbUxGaEhQX2I1YmNmNDFDQUk?oc=5",
-          "source": "The Decoder",
-          "publishedAt": "2026-11-24T19:23:41.000Z"
+          "publishedAt": "2026-11-23T13:40:06.000Z"
         }
       ]
     },
@@ -63,22 +51,22 @@
       "topic": "AI Dev Tools & Releases",
       "items": [
         {
-          "title": "An AI coding agent, a browser, and a Mac tool found a financial firm's access key in under 6 minutes",
-          "url": "https://news.google.com/rss/articles/CBMi6AFBVV95cUxPZ056cGVuc0RuVXk3eGdHa1JtbFVtS3hTdkpNb056LTZyS1IydThuN1RUVlZGMDA0UnNHMjhUTnNoNWc3YUtOYVBMemI1YWxZbnlsSFhESXFLQmFKeEJUM0RHYmNNeHZ6MGVnVVRvM0V3MmRmRDR6LTZTR181elhFS1ZQZmNPR3N6OFA0b2Qxdy1Dejh5OXg5aE1GbTFaLWpiX0ZRYUhvSXllZjFSRVdsQV9ISjktMnJBenpyR0hRR3lBVmJ3Tk9yWUVfeHMxNDRuLVlIVWVMb0UxTDdkSUxlSGNWRlJzMWx6?oc=5",
-          "source": "The Register",
-          "publishedAt": "2026-11-24T17:00:00.000Z"
+          "title": "Anthropic’s Claude Ship tackles the pull request bottleneck created by AI coding agents",
+          "url": "https://news.google.com/rss/articles/CBMiZkFVX3lxTE1ORnM2QXFuaDQ5RFo4ZldrWHJOWG9XTnR1a0tIc1FPa3JhN20tUWJNbGtWUWlSakdMTVMzYTFZeXg3QUJyaDJyNUduY1B3MVRhRWNwUm5CaXNhbXJiajVpbnNQNGhVdw?oc=5",
+          "source": "The New Stack",
+          "publishedAt": "2026-11-25T00:52:45.000Z"
         },
         {
-          "title": "Freebuff AI Coding Review: Free Tier Limits, Ads and Privacy | AgentsPulse",
-          "url": "https://news.google.com/rss/articles/CBMidEFVX3lxTE1LcXNSMlpWSkxRVWRsdmhhZm14UHBhRW9xLWoyVkh1Mi1HNEVJTldIWmRGbWFBdE9Vajl0S2FfMEJiT2F0OVBVUzFDZFMwVmt5ZUx0cVlxZHdqOVp0aTUyMGZ5Q0RKMW5uUlptOUxlUHk3N3Fj?oc=5",
-          "source": "GitHub",
-          "publishedAt": "2026-11-23T16:00:00.000Z"
+          "title": "AI coding agents ace isolated tests but complete fewer than one in ten tasks in a simulated workplace",
+          "url": "https://news.google.com/rss/articles/CBMixAFBVV95cUxQR1Nka1FKa0Nwc1lzX3RXajN5RmVpTC1qcjNTcmJFMGxEcjJOYkVTRFFpSEUtMFZnNG1xMmVEUkk2c0JiNjRpcU82M2hESVV4MTlOUExhZDVRdUlBQTdMZlIwMEhGamNGcktEalRZbzRTeldUSnJhMGkwcjZLbl9pQ3MtV3ZySGlCa0xNOHFfVlhpRDJWMHoxcjEzdF9DNi0tN3Jya2xpYTFJYTRKd056ZTBDUGZMU2s0c1hFYXBSdFlnZlRE?oc=5",
+          "source": "The Decoder",
+          "publishedAt": "2026-11-22T15:15:48.000Z"
         },
         {
-          "title": "Inkling 2 Mini Ollama Setup: Mac Requirements and PC Options",
-          "url": "https://news.google.com/rss/articles/CBMib0FVX3lxTE5wVy14UUw1RVVadHFrVVhSNHY2Tm1CcHFwU3lFam0zYVM4Z3hJNnRZZ3ZIbFhzZTF5YVBsR0RoLXRMOTBlUTctcF9aTktFeXNCQ21EdWx0UWJUd0ZzQmxKWjhzNWhITW1qRVNzT0o1dw?oc=5",
-          "source": "GitHub",
-          "publishedAt": "2026-11-21T16:00:00.000Z"
+          "title": "Zipher Raises $53M to Rebuild Data Infrastructure for Agents, by Agents",
+          "url": "https://news.google.com/rss/articles/CBMipAFBVV95cUxPaENmdmp2ZS02UjRsczlkM3RrVWFRYXhIZmNNUDRwZWNyWktZODkydGdOYjFwbTduMUFOd0V1RDZyRExfbVlCOS1FZ1lsanFxSE5qSG9ZbnowNk5JMG5fdWRnbThmREZDSHIxMWdEZW5mY1NZVkV5Y3hnWEZ6WVUxSldLeEFUWTJmR1NQajhGRTBfZURMVXBRR1gwdmtpNUpLdXJJSg?oc=5",
+          "source": "VentureBeat",
+          "publishedAt": "2026-11-24T13:00:30.000Z"
         }
       ]
     },
@@ -86,22 +74,22 @@
       "topic": "Verified AI Leaks & Early Reports",
       "items": [
         {
-          "title": "EXCLUSIVE: Some US banks tighten AI-agent controls on concern about models escaping safeguards",
-          "url": "https://news.google.com/rss/articles/CBMizgFBVV95cUxPb0pELTVieEVteWV5TWE5cU80T1M4MmNHVmxQVjNmb0tkQ3diUHRFSTg0X1NJTnhEMGZHcS1CaFZfRHUyeWUyQ0RSMWVOa2drMEY0VG1Ba3puU0FmamtxdzF3dFFLaXl0TGloeVIteHFxMkNiRlFLMU5Yc0FUeDNvVzJZS0lLS2t1TWo5Tmk1RWJjMGlHQ2Q2eXlwc1NRU0lXNEFxODVLZ1FmQm4xLUR0QWFoRTRTS1FqSE5FRGVfUzNPaFZGUlNJREtSb0ZjUQ?oc=5",
+          "title": "EXCLUSIVE: Alice Huang-linked firms listed $270 million in AI servers in China, records show",
+          "url": "https://news.google.com/rss/articles/CBMixAFBVV95cUxPYXNKWVJFdGJPenhtYnNFM2VnNnJGdUpjaUlfVDMycE9TWlVUOWJwNVNmU0dyMC1OUF90NzQ1TUZwdDlERUc0RENMRU44MVo2eGhsT1V3MTFpLXh0OTM3cW1hWkNZbGFzc3V5WVdFenoxTE5uZkZoaDNXdW41cmFzVThQZnVNYUR2N3hMcE1EeUQ4cGotR3FVYjJKV0FudldtekoyZUQ3b2NlNTUxWmNfODdPd3RHVlNZM2tsYWpwSFVjZGFY?oc=5",
           "source": "Reuters",
-          "publishedAt": "2026-11-23T22:45:12.000Z"
+          "publishedAt": "2026-11-25T06:13:00.000Z"
         },
         {
-          "title": "As Meta bets big on Muse AI agent, early safety mishaps surface",
-          "url": "https://news.google.com/rss/articles/CBMiqwFBVV95cUxNYzFCWVhTaXRGa0xoLTRJUUVKTjNaYXZzU2FhbHYxR2tyallCbFJsUFM1U21lbXN0UVN2U3FfZnlsWWdGWERVTWRBdmhHVmZaS0Z3X0REWFhvaXhQYXpoNHRlTG0wbHp0WHd5b3N3dnpOYnJONWE4bWVXdEJObHFqZTFYd2szQ3p1SU5LV1JxODNpSVpoWnZTdXVWRDJTSUl0MTRvQnotcjJrUUE?oc=5",
+          "title": "How China got access to Nvidia's AI chips despite rules to stop them",
+          "url": "https://news.google.com/rss/articles/CBMirgFBVV95cUxPU05FY1hvQmJod19oM3p3aTZQaS1CdktCWEZsSnk0TmVWREE1a0tmVW5kVnBxdG5VNU1TX2FmWnZ1aTc1UEQyblFkSklCZ3NlcU1XQUZQVDUwTXZ6R3BoVjlRb1RPY0pTNGdmUUdNZkw0Zi1oanJOcXFieGlBdzRTN05pa3FsaVhUWVk0UWpzc0hkN2kySGF6bGRpU1Y1a2IyNi1iaUFQZThLNVZON0E?oc=5",
           "source": "Reuters",
-          "publishedAt": "2026-11-20T11:02:50.000Z"
+          "publishedAt": "2026-11-25T19:58:10.000Z"
         },
         {
-          "title": "Anthropic shares tumble below $83 IPO price, on track to lose nearly $200 billion in value",
-          "url": "https://news.google.com/rss/articles/CBMiowFBVV95cUxNMHBNOVY5RDc1NmxUUjNnZkNhLWROQkhUOFZpVmQ0SEI0UG9aSUpTTjhpV3EydTNkdW8xYm1KOWF6OXg2Z3BMaUJCWTE3WnFCM0hCZGNuQ3ZKUklsYUROVWQzdExOamNKVlJLRTgwYWpoYVdOUjlDY0pxTmxZajlvckJ4cHc0TG1hbW1ZUkszaDZ2M2Rvd3RqTWRFaVRENXVWT0pr?oc=5",
+          "title": "Alice Huang in touch with Chinese spy agency during affair with Nvidia CEO, NYT says",
+          "url": "https://news.google.com/rss/articles/CBMixgFBVV95cUxPS1pvWmhMSm1MRktDOXJhZWNCdTJIZ25WejNRVExzUHhPeGhEeklEZW54T3NVZTJYbjJEa3Bmcm0xV3B2aVZnTE5oYm9MNEVYQXBzZmZYQXV4SmNWa3ZrVXVqczFEV0JqaXNoRERwTlZaNk1YSXo3TGlQNWRVekh5dC1XTmVhYU5SYVRUbjNnbmszTm5PRTdCeVEyMmFweGE1NTRHSmcyRXlrUnBGNk5aWXZyTkdvSmgwaWRvdks2bGIzejlMY0E?oc=5",
           "source": "Reuters",
-          "publishedAt": "2026-11-24T20:47:56.000Z"
+          "publishedAt": "2026-11-23T01:54:00.000Z"
         }
       ]
     },
@@ -113,22 +101,22 @@
       "topic": "OpenAI Official",
       "items": [
         {
-          "title": "GPT-6 models demonstrate intrinsic protein-design capabilities",
-          "url": "https://openai.com/index/gpt-6-models-demonstrate-intrinsic-protein-design-capabilities",
-          "source": "OpenAI Official",
-          "publishedAt": "2026-11-24T13:00:00.000Z"
-        },
-        {
-          "title": "Searching for distant planets with Astra",
-          "url": "https://openai.com/index/searching-for-distant-planets-with-astra",
-          "source": "OpenAI Official",
-          "publishedAt": "2026-11-24T11:00:00.000Z"
-        },
-        {
-          "title": "How Intentful uses dots to make more time for growth",
-          "url": "https://openai.com/business/customer-stories/intentful-dots",
+          "title": "How iFood scales coding agents across 15,000 repositories",
+          "url": "https://openai.com/business/customer-stories/ifood",
           "source": "OpenAI Official",
           "publishedAt": "2026-11-24T00:00:00.000Z"
+        },
+        {
+          "title": "Clay helps sales teams win with Codex and ChatGPT",
+          "url": "https://openai.com/business/customer-stories/clay-plugins-openai",
+          "source": "OpenAI Official",
+          "publishedAt": "2026-11-24T00:00:00.000Z"
+        },
+        {
+          "title": "Can AI help scientists identify promising drug candidates?",
+          "url": "https://openai.com/index/introducing-medchembench",
+          "source": "OpenAI Official",
+          "publishedAt": "2026-11-20T00:00:00.000Z"
         }
       ]
     },
@@ -136,16 +124,10 @@
       "topic": "Google DeepMind Official",
       "items": [
         {
-          "title": "Genie 4 is now available",
-          "url": "https://deepmind.google/blog/genie-4-is-now-available/",
+          "title": "From spectrum to structure: Identifying molecules with Mass Spec Skills for Google Antigravity",
+          "url": "https://deepmind.google/blog/interpreting-mass-spectra-with-google-antigravity/",
           "source": "Google DeepMind Official",
-          "publishedAt": "2026-11-18T18:13:42.000Z"
-        },
-        {
-          "title": "Introducing Gemini 4 Hydrogen",
-          "url": "https://deepmind.google/blog/introducing-gemini-4-hydrogen/",
-          "source": "Google DeepMind Official",
-          "publishedAt": "2026-11-12T18:00:50.000Z"
+          "publishedAt": "2026-11-24T13:07:53.000Z"
         }
       ]
     },
@@ -153,16 +135,16 @@
       "topic": "Hugging Face & Open Weights",
       "items": [
         {
-          "title": "Microduck Obstacle Avoidance: A Sim2Real Workflow with Isaac Lab and Newton",
-          "url": "https://huggingface.co/blog/nvidia/microduck-obstacle-avoidance",
+          "title": "Where scientists draw the line on AI agents",
+          "url": "https://huggingface.co/blog/allenai/where-scientists-draw-the-line-on-ai-agents",
           "source": "Hugging Face & Open Weights",
-          "publishedAt": "2026-11-24T16:34:13.000Z"
+          "publishedAt": "2026-11-25T18:52:55.000Z"
         },
         {
-          "title": "Welcome Inkling 2 Mini, Cutting-edge Performance for your Local Setup",
-          "url": "https://huggingface.co/blog/inkling2mini",
+          "title": "An Indic Voice Agent with CUGA",
+          "url": "https://huggingface.co/blog/ibm-research/an-indic-voice-agent-with-cuga",
           "source": "Hugging Face & Open Weights",
-          "publishedAt": "2026-11-20T00:00:00.000Z"
+          "publishedAt": "2026-11-25T10:22:09.000Z"
         }
       ]
     }
