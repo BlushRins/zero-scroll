@@ -1,4 +1,22 @@
 {
   "version": 1,
-  "items": []
+  "items": [
+    {
+      "id": "rl_fe162f0e25cf",
+      "url": "https://github.com/BlushRins/zero-scroll/blob/09fccb76cd765b926adee606c7c266df025a5420/src/reminders.mjs#L5-L31",
+      "title": "zero-scroll/src/reminders.mjs at 09fccb76cd765b926adee606c7c266df025a5420 · BlushRins/zero-scroll",
+      "source": "github.com",
+      "kind": "article",
+      "note": "The 24-hour reminder can be sent after the 2-hour reminder With lead times `[24, 2]`, add a task due at 10:00 UTC and first evaluate it at 08:30. The evaluator returns `2h`. Save that stage and evaluate again at 09:30. It returns `24h`, so the second alert is less urgent even though the deadline is closer. Reproduced by calling `evaluateDueReminders` twice with those timestamps and carrying the first result forward in `remindedStages`. Once a more urgent stage has fired, suppress less urgent stages for that deadline. The overdue stage should still be eligible. [Reminder stage selection]( )",
+      "tags": [],
+      "readingMinutes": 2,
+      "bullets": [
+        "Free 24/7 daily morning briefing, natural-language brain dump inbox, and 3-bullet read-later digest for Gmail, Discord, and mobile web. - zero-scroll/src/reminders.mjs at 09fccb76cd765b926adee606c7c266df025a5420 · BlushRins/zero-scroll"
+      ],
+      "summarizedBy": "extractive",
+      "status": "unread",
+      "savedAt": "2026-11-27T12:12:33.126Z",
+      "digestedAt": null
+    }
+  ]
 }
