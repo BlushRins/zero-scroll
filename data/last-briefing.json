@@ -1,17 +1,17 @@
 {
-  "generatedAt": "2026-11-27T04:50:02.874Z",
-  "dateLabel": "Friday, November 27, 2026",
+  "generatedAt": "2026-11-28T04:34:36.669Z",
+  "dateLabel": "Saturday, November 28, 2026",
   "timezone": "Asia/Manila",
   "weather": {
     "city": "Manila",
     "unit": "°C",
-    "currentTemp": 34,
+    "currentTemp": 33,
     "feelsLike": 38,
-    "high": 34,
-    "low": 27,
-    "rainChance": 37,
-    "condition": "Overcast",
-    "fetchedAt": "2026-11-27T04:50:02.981Z"
+    "high": 33,
+    "low": 26,
+    "rainChance": 100,
+    "condition": "Drizzle",
+    "fetchedAt": "2026-11-28T04:34:36.803Z"
   },
   "schedule": [],
   "dueSoon": [
@@ -34,16 +34,10 @@
       "topic": "Famous AI News & Updates",
       "items": [
         {
-          "title": "EXCLUSIVE: US chip curbs, distillation crackdown threaten Chinese AI model development, sources say",
-          "url": "https://news.google.com/rss/articles/CBMivwFBVV95cUxQSHo5VjlHR1l4UkdCSmFGNUd6WVlZNXlwZXl6Yk5oYUFnTm9ISC1ZSWdmbi1aZ3R1b1Q3bXhpaXVoSXRaNy1hcWdSWHdCd2RFVGx6WlhYN25pZXI4Q2xHWGpQVkJYN2MwTk1ma2NERnBKTHhBUXpHSElLeFdwdEpVZFZZcWhxMm1QUEVpeHRYSXczYXNJelJTUWtHdEkxSGpud2NxeV90R0VjTXVkTmE4U0JRZWVRM1RFUmt3UGhIbw?oc=5",
-          "source": "Reuters",
-          "publishedAt": "2026-11-26T07:19:00.000Z"
-        },
-        {
-          "title": "Andrew Bailey says unreleased AI models have raised encryption concerns",
-          "url": "https://news.google.com/rss/articles/CBMihAFBVV95cUxPbWxtSWdkclhVM25LM250eXk0V3AyWHl5VU82OHdETGpVOHBNeHVwR0tKM1JiVUlmNnpRZHZuX2o5bFctVU16OVctaDVFM0RUTWxLZXladmFDSjdjMUpkLVhiX3dRYVhrTVRDTUpud0R6RU1NYWx3TElCWmlkSndmTjdwTEQ?oc=5",
-          "source": "Financial Times",
-          "publishedAt": "2026-11-26T17:13:40.000Z"
+          "title": "Chinese AI Firms Confront Dire Future as U.S. Tightens Access to Chips and Tokens",
+          "url": "https://news.google.com/rss/articles/CBMirwFBVV95cUxPcUtIYnhjUFNSRkJpR2wtTzl0Z3RIekt5dHF0Q0lGamVnNjBPU0Y1V19QY2p3MGc0NVlUSjV6cmVTN2FYVkk1cXJseTJKMXo0UG5LRC1iMU91WlcxbFFwc0p0ZEtKcS1reTVsbk1hWk1YZWpiWHMzYWNXTUg2YjZLYjQwbTFxVUlxRDBVTDRWcTFVa1JsZ2hCNTNGSEhHQWdrNnNCbGctUWU4d0M2cmxB?oc=5",
+          "source": "The Information",
+          "publishedAt": "2026-11-25T14:00:00.000Z"
         }
       ]
     },
@@ -55,49 +49,56 @@
       "topic": "Verified AI Leaks & Early Reports",
       "items": [
         {
-          "title": "US seeks answers on Nvidia's sale of chips to China, Bessent says",
-          "url": "https://news.google.com/rss/articles/CBMipAFBVV95cUxQcm1fbVJENmFGZU81bGR4WXVfeDMwdWdaY0xNbmVBN3hmaXVVeVBLelJxT3dubnROYnVkM2NCRXRfcFFvMGNtZ0FlM3c5LWt1WUVGclQzY1ZJTVBCR2d2dXozSXRqN0VIM1NsV0d2YVJLRjJpRnlIcVRNSlZqeURwLWhKa1V4dUNvWDdlZmNoMnQxQ1d6WlVGalNpdjVSZm9PMXRzUA?oc=5",
+          "title": "OpenAI countersues Apple for stealing trade secrets",
+          "url": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxQa0FibW0xZFFBUlJ2MGJkd0NEcWZtRzkzUkdWcFl1VnlRN2dRMkpjWHpKVXlIekttSno1b1RMeWxJN2dtU0ZlS085Y1ZqTkpfM2Jaci13RUdMNFVPOWtqRldaazVrX25mMExUSkU0SmJRcHJsdnZxMWJXU05MNXFzc211YzlXNzMwRTVUM1k1MW5RQTdHbnRpU1p6Y2hQMFE0UnVBSk45eHg?oc=5",
           "source": "Reuters",
-          "publishedAt": "2026-11-22T17:53:07.000Z"
+          "publishedAt": "2026-11-27T23:00:08.000Z"
         },
         {
-          "title": "EXCLUSIVE: US officials divided over Chinese spying allegations following Jensen Huang's return",
-          "url": "https://news.google.com/rss/articles/CBMivgFBVV95cUxPcXVqeXRkckRvMDl4OWJsUlhwZk5qNDNKZWl5MGxrSWFXSmdUWW14QmJvTXFUSFBXekdMc2lHZ2h0WjY2MjdJWjdhYTB6SUR0NTRaYmVQbUVMVUIyd1NJY1h2N0VDMGJoNHV2MkFYb29wS1R1WVFnWkgxVmNid1g0UVhka29CS3JzUWNvMTFaZTFucGJ6cG1RV2pDc2NUUWRrNnRYcF9uMVM2cEpFNEdrRlJsMHotUkRFR2pneW93?oc=5",
+          "title": "What we know about Megaspeed, the Nvidia customer blacklisted by US",
+          "url": "https://news.google.com/rss/articles/CBMiwAFBVV95cUxNcWVhaTZ1VE1DODl2cm9KdXRyTWgwV1Q4cjRsSzRhOG1wU3FjLUtKajNVN2NIV1VqNU9OS0tTMkF1T1NTTFRiTEtIT1V6aXMzbDctRnR5X3ZTbVFRdEQ5NGE2ZnlOa0c4YjhzN3pRbUJzQTlUZDZwRE5SNlhOSjVzY1UxaXlZWTRDNm1RNmFHLXhZOU40Tm9UcnBKdnVfcnJTemFhT21EOEE1Y3dtNkR3VmZxV0VHTHhGSWVpYlNoSk0?oc=5",
           "source": "Reuters",
-          "publishedAt": "2026-11-26T03:38:00.000Z"
+          "publishedAt": "2026-11-24T12:01:13.000Z"
         },
         {
-          "title": "Huang's Nvidia return sparks relief for battered AI trade, but questions remain",
-          "url": "https://news.google.com/rss/articles/CBMiuAFBVV95cUxOdllUY1JjNjA0T3ZBYjdac2FIVFZWQlF1dUhuclNlcDRfU2gxQzFoQ0kzUk9rcXMxbTJvRXdpZUNVM2ZJTXljQ1B6bjQ3NmxqSmxXTmhqV2JIMFphcGhwQ2dlSGI1Vm56ZUhBcGZMSDdmOVM2eXMyVjMtS19DbWJIVm40U044V0dxR3hPU1NmeldKdGl6VHh0UDVVcnlqUEVudEVrV0MxS1A2UnV6M2U3QldjQjV1OGpV?oc=5",
+          "title": "How Nvidia CEO Jensen Huang got entangled in a China chip and spy scandal",
+          "url": "https://news.google.com/rss/articles/CBMisgFBVV95cUxPTHlwUlFKVU9ISTVVVDhJZUJ4VDhGY1RBcERJZlRmQkcxSUFJQjJtbC1FNlJfT0RzV3JNQTUzeVBMMU5VZFh0V21vbHhvc0w1V2Y3X0pWbzNVeEhPMHJoOXFVNjN5eXlwdnZ5UWZfeDRfZ0poWTJMdnp3U2lLVmhhSTFUTmVUZklLSnJQZC10Vmlyclo0ckhTQkJZUmVVRGx0YUtkYkEyZmtJMmo5UlJSeWRn?oc=5",
           "source": "Reuters",
-          "publishedAt": "2026-11-24T06:54:47.000Z"
+          "publishedAt": "2026-11-23T08:00:00.000Z"
         }
       ]
     },
     {
       "topic": "AI Deals, Funding & Pricing",
-      "items": []
+      "items": [
+        {
+          "title": "Nvidia Earnings and Forecasts Beat Expectations",
+          "url": "https://news.google.com/rss/articles/CBMihAFBVV95cUxNdFFIYV9qR0U3Q3Q5bFNVM2VscDYtYU01YkxpSDFVRUkxNkYyX0l1NlNDYmRDU25NaHhJR0JvV0tnMDQxRHBvYkx5Y21WaDVwVDA5MjdaNndERWNmZlp2dzVIdm8ySG40RzJRWGVfY1RCdTNkd2NmVlN2Q3JURVpfNWptNDk?oc=5",
+          "source": "The New York Times",
+          "publishedAt": "2026-11-23T08:00:00.000Z"
+        }
+      ]
     },
     {
       "topic": "OpenAI Official",
       "items": [
         {
-          "title": "How OpenAI’s Performance Factory keeps ChatGPT fast",
-          "url": "https://openai.com/index/how-openai-performance-factory-keeps-chatgpt-fast",
-          "source": "OpenAI Official",
-          "publishedAt": "2026-11-19T08:00:00.000Z"
-        },
-        {
-          "title": "See PR scans in action",
-          "url": "https://openai.com/business/learn/pr-scans-demo",
+          "title": "Explore the Codex Security Plugin",
+          "url": "https://openai.com/business/learn/codex-security-plugin-demo",
           "source": "OpenAI Official",
           "publishedAt": "2026-11-19T00:00:00.000Z"
         },
         {
-          "title": "Deploying Daybreak Red",
-          "url": "https://openai.com/business/learn/deploying-daybreak-red",
+          "title": "Get started with Daybreak Blue",
+          "url": "https://openai.com/business/learn/daybreak-blue-onboarding-demo",
           "source": "OpenAI Official",
           "publishedAt": "2026-11-19T00:00:00.000Z"
+        },
+        {
+          "title": "The Silent Consensus",
+          "url": "https://openai.com/index/the-silent-consensus",
+          "source": "OpenAI Official",
+          "publishedAt": "2026-11-18T10:00:00.000Z"
         }
       ]
     },
@@ -109,20 +110,38 @@
       "topic": "Hugging Face & Open Weights",
       "items": [
         {
-          "title": "Introducing the llama.cpp benchmark dashboard for AMD Ryzen and Radeon",
-          "url": "https://huggingface.co/blog/ggml-org/llamacpp-amd-bench",
+          "title": "Taking Trainium3 to the Track: Generating Videos with LTX-2.5",
+          "url": "https://huggingface.co/blog/video-trainium3",
           "source": "Hugging Face & Open Weights",
-          "publishedAt": "2026-11-26T11:37:17.000Z"
+          "publishedAt": "2026-11-27T00:00:00.000Z"
         },
         {
-          "title": "Building on Nemotron 3.5 Parse: Open Data, Fine-Tuning, and Faster Inference",
-          "url": "https://huggingface.co/blog/nvidia/building-on-nemotron-35-parse-open-data-fine-tunin",
+          "title": "Swarms, Flocks, Gangs: How to build, train, and evaluate multi-agent systems",
+          "url": "https://huggingface.co/blog/training-swarms",
           "source": "Hugging Face & Open Weights",
-          "publishedAt": "2026-11-26T05:05:36.000Z"
+          "publishedAt": "2026-11-26T00:00:00.000Z"
         }
       ]
     }
   ],
-  "readLater": [],
+  "readLater": [
+    {
+      "id": "rl_fe162f0e25cf",
+      "url": "https://github.com/BlushRins/zero-scroll/blob/09fccb76cd765b926adee606c7c266df025a5420/src/reminders.mjs#L5-L31",
+      "title": "zero-scroll/src/reminders.mjs at 09fccb76cd765b926adee606c7c266df025a5420 · BlushRins/zero-scroll",
+      "source": "github.com",
+      "kind": "article",
+      "note": "The 24-hour reminder can be sent after the 2-hour reminder With lead times `[24, 2]`, add a task due at 10:00 UTC and first evaluate it at 08:30. The evaluator returns `2h`. Save that stage and evaluate again at 09:30. It returns `24h`, so the second alert is less urgent even though the deadline is closer. Reproduced by calling `evaluateDueReminders` twice with those timestamps and carrying the first result forward in `remindedStages`. Once a more urgent stage has fired, suppress less urgent stages for that deadline. The overdue stage should still be eligible. [Reminder stage selection]( )",
+      "tags": [],
+      "readingMinutes": 2,
+      "bullets": [
+        "Free 24/7 daily morning briefing, natural-language brain dump inbox, and 3-bullet read-later digest for Gmail, Discord, and mobile web. - zero-scroll/src/reminders.mjs at 09fccb76cd765b926adee606c7c266df025a5420 · BlushRins/zero-scroll"
+      ],
+      "summarizedBy": "extractive",
+      "status": "unread",
+      "savedAt": "2026-11-27T12:12:33.126Z",
+      "digestedAt": null
+    }
+  ],
   "warnings": []
 }
